@@ -1,0 +1,514 @@
+to get the out put file it will look at 3 files
+inventory
+sold
+and ended
+
+ended file it will look at column U (end date)
+
+it will need to remmember THE last date and time of the last one it did Feb-13-23 16:30:27 PST
+
+example
+if i run it today
+it would do any record after Feb-13-23 16:30:27 PST the next day when I run it
+
+it will keep track of the last record it did and not reuse any records that have been used in the script previously
+
+ok so it finds new records it hasnt used from column u
+
+now it will look in those rows and use the values of them in column B
+
+it will take these values (Skus)
+
+and match with the inventory sheet column B
+
+now it will go to column F
+delete that value and add  it to Column F in another random in the same group(Column G)
+
+sold sheet
+exactly the same accept it will get the skus to match with inventory from column  Y (notice random spaces also)
+
+also does not need to look at Column U (no end date needed)
+
+it will then save the inventory file
+
+
+
+
+the out csv will have the following values
+
+a column
+a1 
+*Action(SiteID=US|Country=US|Currency=USD|Version=745|CC=UTF-8)
+
+a2 and all
+Add
+
+B1
+CustomLabel
+
+B2 and all
+will take column B from inventory sheet (sku)
+
+C1
+*Category
+
+C2 and all
+will check the inventory file column F
+if F is 23
+262421
+will be entered
+if its 24
+104414
+will be entered
+
+D1
+StoreCategory
+
+D2 and all
+3152810012
+
+E1
+*Title
+
+e2 and all
+the value from column a inventory file will be entered
+
+f1
+*ConditionID
+
+f2 and all
+1000
+
+g1
+C:Brand
+
+g2 and all
+Unbranded
+
+h1
+C:Object Type
+
+h2 and all
+Photograph
+
+i1
+C:Original/Reprint
+i2
+nothing
+
+j1
+PicURL
+
+j2 and all
+the value from column e inventory file will be entered
+
+k1
+GalleryType
+
+k2 and all
+Gallery
+
+L1
+*Description
+
+L2 and all
+
+it will insert column a from inventory inside this
+i marked it with 2 * before and after
+
+<div style="text-align: center;">**INSERT COLUMN A HERE**</div><meta name="viewport" content="width=device-width, initial-scale=1.0"><style>img{max-width:100%}</style><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><img src="https://american-autographs.com/toimages//Alison%20Rey%20_9-29-2017_0010_0080.jpg"></div><div style="text-align: center; font-family: Arial; font-size: 14pt;"><br></div><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>Currently up for sale is a&nbsp;high quality reproduction autographed 8x10 photo.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>This is not an original autographed photo, it is a copy of an authentic signed 8x10.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>All photos we sell are not cheap computer print outs, our photos are printed on lab quality paper.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>Domestic shipping and handling is 5.00 for the 1st photo won, and no additional cost per extra.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>International shipping and handling is 17.00 for the 1st photo won, and no additional cost per extra.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>If you are not happy for any reason we offer a NO questions asked 30 day money back guarantee</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><b>Please check out the rest of our listing for more great photos.</b></li></ul><div id="inkfrog_crosspromo_bottom" style="font-family: Arial; font-size: 14pt;"><br><img src="https://www.facebook.com/tr?id=284520783611053&amp;ev=PageView" height="1" width="1" style="display:none"></font></div>
+
+m1
+*Format
+
+m2 and all
+will have
+
+if the value in column F from inventory is 2 
+
+Auction
+is the value
+
+if the value in column F from inventory is 23 or 24
+the value is 
+FixedPriceItem
+
+n1
+*Duration
+
+n2 and all
+
+if the value in column F from inventory is 23 or 24
+the value is
+
+GTC
+
+if the value in column F from inventory is 2 
+
+7
+is the value
+
+o1
+*StartPrice
+
+o2
+
+if the value in column F from inventory is 23 or 24
+the value is
+
+12.95
+
+if the value in column F from inventory is 2 
+
+6.95
+is the value
+
+P1
+*Quantity
+
+p2 and all
+1
+
+
+q1
+PayPalAccepted
+
+q2 and all
+1
+
+r1
+PayPalEmailAddress
+
+r2 and all
+stali2cali@gmail.com
+
+s1
+ImmediatePayRequired
+
+s2 and all
+0
+
+t1 
+PaymentInstructions
+
+t2 and all
+Thank you for your purchase from rpppgraphs. We will have your item out to you within 3 business day of recieving payment. Please feel free to send us an email with any additional questions. Looking for more autographs of a particular girl? Send us a message
+
+
+u1
+*Location
+
+u2 and all
+90247
+
+v1
+ShippingType
+
+v2 and all
+Flat
+
+w1
+ShippingService-1:Option
+
+w2 and all
+USPSFirstClass
+
+x1
+ShippingService-1:Cost
+
+x2 all
+5
+
+y1
+*DispatchTimeMax
+
+y2 all
+1
+
+
+z1
+PromotionalShippingDiscount
+
+z2 all
+0
+
+aa1
+ShippingDiscountProfileID
+
+aa2 all
+1240914019
+
+ab1
+*ReturnsAcceptedOption
+
+ab2 all
+ReturnsAccepted
+
+ac1
+ReturnsWithinOption
+
+ac2
+Days_30
+
+
+ad1
+RefundOption
+
+ad2all
+MoneyBack
+
+
+ae1
+ShippingCostPaidByOption
+
+ae2 all
+Seller
+
+af1
+AdditionalDetails
+
+af2 no value
+
+ag1
+UseTaxTable
+
+ag2 no value
+
+
+ah1
+ShippingProfileName
+
+ah2 all
+pornr
+
+ai
+ReturnProfileName
+
+ai2 all
+30days
+
+aj
+PaymentProfileName
+
+aj2 all
+PayPal
+
+ak1
+C:Size
+
+ak2 all no values
+
+
+al1
+IntlShippingService-1:Option
+
+aL2 all
+
+USPSFirstClassMailInternational
+
+am1
+IntlShippingService-1:Locations
+
+am2 all
+
+Worldwide
+
+an1
+IntlShippingService-1:Cost
+
+an2 all
+
+17
+
+
+ao1
+BestOfferEnabled
+
+ao2
+if the value in column F from inventory is 23 or 24
+the value is 1
+
+if the value in column F from inventory is 2 
+
+nothing is the value
+
+ap1
+AutoAccept
+
+ap2
+if the value in column F from inventory is 23 or 24
+the value is 1
+
+if the value in column F from inventory is 2 
+
+nothing is the value
+
+aq1
+BestOfferAutoAcceptPrice
+
+aq2
+
+if the value in column F from inventory is 23 or 24
+the value is 7
+
+if the value in column F from inventory is 2 
+
+nothing is the value
+
+
+ar1
+AutoDecline
+
+ar2
+if the value in column F from inventory is 23 or 24
+the value is 1
+
+if the value in column F from inventory is 2 
+
+nothing is the value
+
+as
+MinimumBestOfferPrice
+
+as2
+if the value in column F from inventory is 23 or 24
+the value is 6.95
+
+if the value in column F from inventory is 2 
+
+nothing is the value
+
+
+at1
+ShipToLocations
+
+at2 all
+Worldwide
+
+au
+C:Autograph Authentication
+
+no other values in column
+
+av
+C:Product
+
+no other values in column
+
+aw	
+C:Player
+
+no other values in column
+
+ax
+C:Olympic Sport	
+
+no other values in column
+
+
+ay
+C:Team	
+
+no other values in column
+
+az
+C:Sport	
+
+no other values in column
+
+ba
+C:League
+
+no other values in column
+
+bb1
+C:Signed by
+
+b2 and all
+
+insert value from column H in inventory
+
+bc1
+C:Industry
+
+b2 all
+Movies
+
+bd1
+C:Original/Reproduction
+
+bd2 all
+Reproduction
+
+be1
+C:Subject
+
+be2
+
+if the value in column F from inventory is 23
+
+Art,Glamour,Model,Nudes
+is the value
+
+if the value in column F from inventory is 24 or 3
+no value
+
+
+bf1
+
+C:Type
+
+bf2
+if the value in column F from inventory is 23
+
+8x10 photo
+is the value
+
+if the value in column F from inventory is 24 or 3
+no value
+
+bg1
+C:Theme
+
+bg2 all
+
+if the value in column F from inventory is 23
+
+Nude
+is the value
+
+if the value in column F from inventory is 24 or 3
+no value
+
+Bh1
+C:Style
+
+bh2 all
+
+if the value in column F from inventory is 23
+
+Artistic Nudes,Nude
+
+is the value
+
+if the value in column F from inventory is 24 or 3
+no value
+
+BI1
+C:Condition
+
+bi2 all
+
+if the value in column F from inventory is 23
+
+New
+
+is the value
+
+if the value in column F from inventory is 24 or 3
+no value
+
+
+
+should backup inventory file before it does anything
+
