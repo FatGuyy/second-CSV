@@ -144,8 +144,29 @@ def static(length, value):
         ret_list.append(value)
     return ret_list
 
-def conditional():
-    pass
+def conditional(F_col, **kwargs):
+    ret_list = []
+    
+    for _ in F_col:
+        if _ == 24 or _ == 23:
+            ret_list.append("FixedPriceItem")
+        elif _ == 2:
+            ret_list.append("Auction")
+        else:   # for empty cell  
+            ret_list.append(None)
+    return ret_list
+
+def bConditional(F_col, **kwargs):
+    ret_list = []
+    
+    for _ in F_col:
+        if _ == 24 or _ == 3:
+            ret_list.append(None)
+        elif _ == 23:
+            ret_list.append("New")
+        else: 
+            ret_list.append(None)
+    return ret_list
 
 def main(inventory_csv_path,sold_csv_path, end_csv_path):
     # Inventory Sheet file reading
@@ -233,8 +254,7 @@ def main(inventory_csv_path,sold_csv_path, end_csv_path):
     ret_col_bh = [] # condtion
     ret_col_bi = [] # condtion
 
-    return [ret_col_a,
-            ret_col_b]
+    return [ret_col_a, ret_col_b, ret_col_c,ret_col_d,ret_col_e,ret_col_f,ret_col_g,ret_col_h,ret_col_i,ret_col_j,ret_col_k,ret_col_l,ret_col_m,ret_col_n,ret_col_o,ret_col_p,ret_col_q,ret_col_r,ret_col_s,ret_col_t,ret_col_u,ret_col_v,ret_col_w,ret_col_x,ret_col_y,ret_col_z,ret_col_aa,ret_col_ab,ret_col_ac,ret_col_ad,ret_col_ae,ret_col_af,ret_col_ag,ret_col_ah,ret_col_ai,ret_col_aj,ret_col_ak,ret_col_al,ret_col_am,ret_col_an,ret_col_ao,ret_col_ap,ret_col_aq,ret_col_ar,ret_col_as,ret_col_at,ret_col_au,ret_col_av,ret_col_aw,ret_col_ax,ret_col_ay,ret_col_az,ret_col_ba,ret_col_bb,ret_col_bc,ret_col_bd,ret_col_be,ret_col_bf,ret_col_bg,ret_col_bh,ret_col_bi,]
 
 if __name__ == "__main__":
     # inventory_csv_path = input("Enter Inventory sheet path : ")
