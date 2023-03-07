@@ -6,6 +6,7 @@ import csv
 import pandas as pd
 from pandas import read_csv
 from datetime import date
+
 FIRST_ROW = ['*Action(SiteID=US|Country=US|Currency=USD|Version=745|CC=UTF-8)',
              'CustomLabel',
              '*Category',
@@ -134,29 +135,106 @@ def write_list_to_csv_column(name_of_file, files, folder_path):
     df.to_csv(os.path.join(folder_path, (name_of_file + '.csv')), index=False)
     print("output csv written...")
 
+def none_value(length):
+    return ['' for _ in range(length)]
+
+def static(length, value):
+    ret_list = []
+    for _ in range(length):
+        ret_list.append(value)
+    return ret_list
+
+def conditional():
+    pass
+
 def main(inventory_csv_path,sold_csv_path, end_csv_path):
     # Inventory Sheet file reading
     with open(inventory_csv_path, "r") as file:
         data = list(csv.reader(file))
     colData = read_csv(inventory_csv_path) # read inventory
     data1 = data[0]
-    col_F = colData[data1[5]].tolist() # Inventory sheet col F
+    inventory_col_B = colData[data1[1]].tolist() # Inventory sheet col B(sku)
+    # inventory_col_E = colData[data1[4]].tolist() # Inventory sheet col E
 
     # Sold Sheet file reading
     with open(sold_csv_path, "r") as file:
         data = list(csv.reader(file))
     colData = read_csv(sold_csv_path) # read sold csv
     data1 = data[0]
-    col_F = colData[data1[5]].tolist() # Sold sheet col F
+    sold_col_F = colData[data1[5]].tolist() # Sold sheet col F
 
     # End Sheet file reading
     with open(end_csv_path, "r") as file:
         data = list(csv.reader(file))
     colData = read_csv(end_csv_path) # read End csv
     data1 = data[0]
-    col_F = colData[data1[5]].tolist() # End sheet col F
+    end_col_F = colData[data1[5]].tolist() # End sheet col F
 
-    
+    length = len(inventory_col_B)
+    ret_col_a = static(length, value="Add")
+    ret_col_b = inventory_col_B
+    ret_col_c = [] # conditional
+    ret_col_d = static(length, value=3152810012)
+    ret_col_e = [] # contditonal
+    ret_col_f = static(length, value=1000)
+    ret_col_g = static(length, value="Unbranded")
+    ret_col_h = static(length, value="Photograph")
+    ret_col_i = none_value(length)
+    ret_col_j = colData[data1[4]].tolist() # invenetory col E
+    ret_col_k = static(length, value="Gallery")
+    ret_col_l = [] # speacial condition
+    ret_col_m = [] # condtion
+    ret_col_n = [] # condtion
+    ret_col_o = [] # condtion
+    ret_col_p = static(length, value=1)
+    ret_col_q = static(length, value=1)
+    ret_col_r = static(length, value="stali2cali@gmail.com")
+    ret_col_s = static(length, value=0)
+    ret_col_t = static(length, value="Thank you for your purchase from rpppgraphs. We will have your item out to you within 3 business day of recieving payment. Please feel free to send us an email with any additional questions. Looking for more autographs of a particular girl? Send us a message")
+    ret_col_u = static(length, value="90247")
+    ret_col_v = static(length, value="Flat")
+    ret_col_w = static(length, value="USPSFirstClass")
+    ret_col_x = static(length, value=5)
+    ret_col_y = static(length, value=1)
+    ret_col_z = static(length, value=0)
+    ret_col_aa = static(length, value=1240914019)
+    ret_col_ab = static(length, value="ReturnsAccepted")
+    ret_col_ac = static(length, value="Days_30")
+    ret_col_ad = static(length, value="MoneyBack")
+    ret_col_ae = static(length, value="Seller")
+    ret_col_af = none_value(length)
+    ret_col_ag = none_value(length)
+    ret_col_ah = static(length, value="pornr")
+    ret_col_ai = static(length, value="30days")
+    ret_col_aj = static(length, value="PayPal")
+    ret_col_ak = none_value(length)
+    ret_col_al = static(length, value="USPSFirstClassMailInternational")
+    ret_col_am = static(length, value="Worldwide")
+    ret_col_an = static(length, value="17")
+    ret_col_ao = [] # condtion
+    ret_col_ap = [] # condtion
+    ret_col_aq = [] # condtion
+    ret_col_ar = [] # condtion
+    ret_col_as = [] # condtion
+    ret_col_at = static(length, value="Worldwide")
+    ret_col_au = none_value(length)
+    ret_col_av = none_value(length)
+    ret_col_aw = none_value(length)
+    ret_col_ax = none_value(length)
+    ret_col_ay = none_value(length)
+    ret_col_az = none_value(length)
+    ret_col_ba = none_value(length)
+    ret_col_bb = [] # condtion
+    ret_col_bc = static(length, value="Movies")
+    ret_col_bd = static(length, value="Reproduction")
+    ret_col_be = [] # condtion
+    ret_col_bf = [] # condtion
+    ret_col_bg = [] # condtion
+    ret_col_bh = [] # condtion
+    ret_col_bi = [] # condtion
+
+    return [ret_col_a,
+            ret_col_b]
 
 if __name__ == "__main__":
     # inventory_csv_path = input("Enter Inventory sheet path : ")

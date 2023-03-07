@@ -1,3 +1,0 @@
-Didn't get the first, i.e. the time & date part
-
-what are the a1 and a2 columns?
