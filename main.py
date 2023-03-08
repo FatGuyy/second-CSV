@@ -5,7 +5,7 @@ import os
 import csv
 import pandas as pd
 from pandas import read_csv
-from datetime import date
+# from datetime import date
 
 FIRST_ROW = ['*Action(SiteID=US|Country=US|Currency=USD|Version=745|CC=UTF-8)',
              'CustomLabel',
@@ -130,8 +130,7 @@ def write_list_to_csv_column(name_of_file, files, folder_path):
                        FIRST_ROW[57]: files[57],
                        FIRST_ROW[58]: files[58],
                        FIRST_ROW[59]: files[59],
-                       FIRST_ROW[60]: files[60],
-                       FIRST_ROW[61]: files[61]})
+                       FIRST_ROW[60]: files[60]})
     df.to_csv(os.path.join(folder_path, (name_of_file + '.csv')), index=False)
     print("output csv written...")
 
@@ -141,28 +140,26 @@ def none_value(length):
 def static(length, value):
     return [value for _ in range(length)]
 
-def conditional(F_col, **kwargs):
-    ret_list = []
-    
-    for _ in F_col:
-        if _ == 24 or _ == 23:
-            ret_list.append("FixedPriceItem")
-        elif _ == 2:
-            ret_list.append("Auction")
+def conditional(F_col, check1, check2, input1, check3, input2):
+    ret_list = []    
+
+    for i in F_col:
+        if i == check1 or i == check2:
+            ret_list.append(input1)
+        elif i == check3:
+            ret_list.append(input2)
         else:   # for empty cell  
             ret_list.append(None)
+
     return ret_list
 
-def bConditional(F_col, **kwargs):
+def get_col_L(inventory_col_a):
     ret_list = []
     
-    for _ in F_col:
-        if _ == 24 or _ == 3:
-            ret_list.append(None)
-        elif _ == 23:
-            ret_list.append("New")
-        else: 
-            ret_list.append(None)
+    for i in inventory_col_a:
+        element = f'''<div style="text-align: center;">{i}</div><meta name="viewport"''' + ''' content="width=device-width, initial-scale=1.0"><style>img{max-width:100%}</style><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><img src="https://american-autographs.com/toimages//Alison%20Rey%20_9-29-2017_0010_0080.jpg"></div><div style="text-align: center; font-family: Arial; font-size: 14pt;"><br></div><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>Currently up for sale is a&nbsp;high quality reproduction autographed 8x10 photo.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>This is not an original autographed photo, it is a copy of an authentic signed 8x10.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>All photos we sell are not cheap computer print outs, our photos are printed on lab quality paper.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>Domestic shipping and handling is 5.00 for the 1st photo won, and no additional cost per extra.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>International shipping and handling is 17.00 for the 1st photo won, and no additional cost per extra.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>If you are not happy for any reason we offer a NO questions asked 30 day money back guarantee</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><b>Please check out the rest of our listing for more great photos.</b></li></ul><div id="inkfrog_crosspromo_bottom" style="font-family: Arial; font-size: 14pt;"><br><img src="https://www.facebook.com/tr?id=284520783611053&amp;ev=PageView" height="1" width="1" style="display:none"></font></div>'''
+        ret_list.append(element)
+
     return ret_list
 
 def main(inventory_csv_path,sold_csv_path, end_csv_path):
@@ -172,38 +169,26 @@ def main(inventory_csv_path,sold_csv_path, end_csv_path):
     colData = read_csv(inventory_csv_path) # read inventory
     data1 = data[0]
     inventory_col_B = colData[data1[1]].tolist() # Inventory sheet col B(sku)
+    inventory_col_F = colData[data1[5]].tolist() # Inventory sheet col F
+    inventory_col_A = colData[data1[0]].tolist() # Inventory sheet col A
     # inventory_col_E = colData[data1[4]].tolist() # Inventory sheet col E
-
-    # Sold Sheet file reading
-    with open(sold_csv_path, "r") as file:
-        data = list(csv.reader(file))
-    colData = read_csv(sold_csv_path) # read sold csv
-    data1 = data[0]
-    # sold_col_F = colData[data1[5]].tolist() # Sold sheet col F
-
-    # End Sheet file reading
-    with open(end_csv_path, "r") as file:
-        data = list(csv.reader(file))
-    colData = read_csv(end_csv_path) # read End csv
-    data1 = data[0]
-    # end_col_F = colData[data1[5]].tolist() # End sheet col F
 
     length = len(inventory_col_B)
     ret_col_a = static(length, value="Add")
     ret_col_b = inventory_col_B
-    ret_col_c = [] # conditional
+    ret_col_c = conditional(inventory_col_F, 23, 23, 262421, 24, 104414) # conditional
     ret_col_d = static(length, value=3152810012)
-    ret_col_e = [] # contditonal
+    ret_col_e = inventory_col_A # Column from inventory
     ret_col_f = static(length, value=1000)
     ret_col_g = static(length, value="Unbranded")
     ret_col_h = static(length, value="Photograph")
-    ret_col_i = none_value(length)
+    ret_col_i = static(length, value="Nothing") # Nothing case
     ret_col_j = colData[data1[4]].tolist() # invenetory col E
     ret_col_k = static(length, value="Gallery")
-    ret_col_l = [] # speacial condition
-    ret_col_m = [] # condtion
-    ret_col_n = [] # condtion
-    ret_col_o = [] # condtion
+    ret_col_l = get_col_L(inventory_col_A) # speacial condition
+    ret_col_m = conditional(inventory_col_F, 23, 24, "FixedPriceItem", 2, "Auction") # condtion
+    ret_col_n = conditional(inventory_col_F, 23, 24, "GTC", 2, 7) # condtion
+    ret_col_o = conditional(inventory_col_F, 23, 24, 12.95, 2, 6.95) # condtion
     ret_col_p = static(length, value=1)
     ret_col_q = static(length, value=1)
     ret_col_r = static(length, value="stali2cali@gmail.com")
@@ -229,11 +214,11 @@ def main(inventory_csv_path,sold_csv_path, end_csv_path):
     ret_col_al = static(length, value="USPSFirstClassMailInternational")
     ret_col_am = static(length, value="Worldwide")
     ret_col_an = static(length, value="17")
-    ret_col_ao = [] # condtion
-    ret_col_ap = [] # condtion
-    ret_col_aq = [] # condtion
-    ret_col_ar = [] # condtion
-    ret_col_as = [] # condtion
+    ret_col_ao = conditional(inventory_col_F, 23, 24, 1, 2, "nothing") # Nothing condtion
+    ret_col_ap = conditional(inventory_col_F, 23, 24, 1, 2, "nothing") # Nothing condtion
+    ret_col_aq = conditional(inventory_col_F, 23, 24, 7, 2, "nothing") # Nothing condtion
+    ret_col_ar = conditional(inventory_col_F, 23, 24, 1, 2, "nothing") # Nothing condtion
+    ret_col_as = conditional(inventory_col_F, 23, 24, 6.95, 2, "nothing") # Nothing condtion
     ret_col_at = static(length, value="Worldwide")
     ret_col_au = none_value(length)
     ret_col_av = none_value(length)
@@ -242,14 +227,14 @@ def main(inventory_csv_path,sold_csv_path, end_csv_path):
     ret_col_ay = none_value(length)
     ret_col_az = none_value(length)
     ret_col_ba = none_value(length)
-    ret_col_bb = [] # condtion
+    ret_col_bb = colData[data1[7]].tolist() # condtion
     ret_col_bc = static(length, value="Movies")
     ret_col_bd = static(length, value="Reproduction")
-    ret_col_be = [] # condtion
-    ret_col_bf = [] # condtion
-    ret_col_bg = [] # condtion
-    ret_col_bh = [] # condtion
-    ret_col_bi = [] # condtion
+    ret_col_be = conditional(inventory_col_F, 3, 24, " ", 23, "Art,Glamour,Model,Nudes") # condtion
+    ret_col_bf = conditional(inventory_col_F, 3, 24, " ", 23, "8x10 photo") # condtion
+    ret_col_bg = conditional(inventory_col_F, 3, 24, " ", 23, "Nude") # condtion
+    ret_col_bh = conditional(inventory_col_F, 3, 24, " ", 23, "Artistic Nudes,Nude") # condtion
+    ret_col_bi = conditional(inventory_col_F, 3, 24, " ", 23, "New") # condtion
 
     return [ret_col_a, ret_col_b, ret_col_c,ret_col_d,ret_col_e,ret_col_f,ret_col_g,ret_col_h,ret_col_i,ret_col_j,ret_col_k,ret_col_l,ret_col_m,ret_col_n,ret_col_o,ret_col_p,ret_col_q,ret_col_r,ret_col_s,ret_col_t,ret_col_u,ret_col_v,ret_col_w,ret_col_x,ret_col_y,ret_col_z,ret_col_aa,ret_col_ab,ret_col_ac,ret_col_ad,ret_col_ae,ret_col_af,ret_col_ag,ret_col_ah,ret_col_ai,ret_col_aj,ret_col_ak,ret_col_al,ret_col_am,ret_col_an,ret_col_ao,ret_col_ap,ret_col_aq,ret_col_ar,ret_col_as,ret_col_at,ret_col_au,ret_col_av,ret_col_aw,ret_col_ax,ret_col_ay,ret_col_az,ret_col_ba,ret_col_bb,ret_col_bc,ret_col_bd,ret_col_be,ret_col_bf,ret_col_bg,ret_col_bh,ret_col_bi,]
 
@@ -260,6 +245,9 @@ if __name__ == "__main__":
     sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
     # end_csv_path = input("Enter the end csv path : ")
     end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
+    # output_csv_path = input("Enter path to store output CSV : ")
+    output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
+    result =  main(inventory_csv_path=inventory_csv_path, sold_csv_path=sold_csv_path, end_csv_path=end_csv_path)
 
-    main(inventory_csv_path=inventory_csv_path, sold_csv_path=sold_csv_path, end_csv_path=end_csv_path)
+    write_list_to_csv_column("Output", result, output_csv_path)
 
