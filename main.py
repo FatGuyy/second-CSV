@@ -139,10 +139,7 @@ def none_value(length):
     return ['' for _ in range(length)]
 
 def static(length, value):
-    ret_list = []
-    for _ in range(length):
-        ret_list.append(value)
-    return ret_list
+    return [value for _ in range(length)]
 
 def conditional(F_col, **kwargs):
     ret_list = []
@@ -182,14 +179,14 @@ def main(inventory_csv_path,sold_csv_path, end_csv_path):
         data = list(csv.reader(file))
     colData = read_csv(sold_csv_path) # read sold csv
     data1 = data[0]
-    sold_col_F = colData[data1[5]].tolist() # Sold sheet col F
+    # sold_col_F = colData[data1[5]].tolist() # Sold sheet col F
 
     # End Sheet file reading
     with open(end_csv_path, "r") as file:
         data = list(csv.reader(file))
     colData = read_csv(end_csv_path) # read End csv
     data1 = data[0]
-    end_col_F = colData[data1[5]].tolist() # End sheet col F
+    # end_col_F = colData[data1[5]].tolist() # End sheet col F
 
     length = len(inventory_col_B)
     ret_col_a = static(length, value="Add")
