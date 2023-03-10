@@ -21,6 +21,7 @@ it will take these values (Skus)
 
 and match with the inventory sheet column B
 
+------------------------------------------------------------------------
 now it will go to column F
 delete that value and add  it to Column F in another random in the same group(Column G)
 
