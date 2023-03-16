@@ -3,6 +3,7 @@ Date Conversion.
 '''
 from datetime import datetime
 import re
+c = ['Jan-16-2012 20:23:21 PST','Jan-17-2012 20:23:21 PST','Jan-18-2012 20:23:21 PST','Jan-19-2012 20:23:21 PST']
 
 # Fucntion to get the check_date format of date to numbers.
 # Makes easier to compare.
@@ -29,8 +30,6 @@ def get_dates_in_numbers(c):
     # print(g)
     return g
 
-c = ['Jan-16-2012 20:23:21 PST','Jan-17-2012 20:23:21 PST','Jan-18-2012 20:23:21 PST','Jan-19-2012 20:23:21 PST']
-dates = get_dates_in_numbers(c)
 
 # Function to compare if the date is after or before the check_date date
 def compare_date(check_date, date2):
@@ -53,8 +52,6 @@ def compare_date(check_date, date2):
                 return False
             else:
                 return True
-
-    # return False
 
 c = get_dates_in_numbers(c)
 print(c)
