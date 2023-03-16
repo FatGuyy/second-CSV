@@ -33,7 +33,6 @@ also does not need to look at Column U (no end date needed)
 it will then save the inventory file
 
 
-
 ------------------------------------------------------------------------
 the out csv will have the following values
 

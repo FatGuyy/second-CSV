@@ -1,5 +1,5 @@
 """
-This is the main file for this project.
+This is the main file for this project, which handles the making output csv part.
 """
 import os
 import csv
@@ -250,4 +250,3 @@ if __name__ == "__main__":
     result =  main(inventory_csv_path=inventory_csv_path, sold_csv_path=sold_csv_path, end_csv_path=end_csv_path)
 
     write_list_to_csv_column("Output", result, output_csv_path)
-
