@@ -1,9 +1,9 @@
 '''
-Date Conversion.
+All Date Conversion Fucntions are in this file.
 '''
 from datetime import datetime
 import re
-c = ['Jan-16-2012 20:23:21 PST','Jan-17-2012 20:23:21 PST','Jan-18-2012 20:23:21 PST','Jan-19-2012 20:23:21 PST']
+# c = ['Jan-16-2012 20:23:21 PST','Jan-17-2012 20:23:21 PST','Jan-18-2012 20:23:21 PST','Jan-19-2012 20:23:21 PST']
 
 # Fucntion to get the check_date format of date to numbers.
 # Makes easier to compare.
@@ -53,6 +53,5 @@ def compare_date(check_date, date2):
             else:
                 return True
 
-c = get_dates_in_numbers(c)
-print(c)
-print("Res - ", compare_date(c[1], c[2]))
+# c = get_dates_in_numbers(c)
+# print("Res - ", compare_date(c[1], c[2]))
