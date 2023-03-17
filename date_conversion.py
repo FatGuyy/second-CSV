@@ -17,7 +17,7 @@ def get_dates_in_numbers(c):
     g = []
     for word in c:
         w = word.split(" ")
-        d.append(w[0]) # Make 1 to get time too
+        d.append(w[0]) # Make 1 to get time.
 
     for i in d:
         f.append(i.replace("-"," "))
