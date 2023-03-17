@@ -167,6 +167,7 @@ def main(inventory_csv_path,sold_csv_path, end_csv_path):
     with open(inventory_csv_path, "r") as file:
         data = list(csv.reader(file))
     colData = read_csv(inventory_csv_path) # read inventory
+    print(data)
     data1 = data[0]
     inventory_col_B = colData[data1[1]].tolist() # Inventory sheet col B(sku)
     inventory_col_F = colData[data1[5]].tolist() # Inventory sheet col F

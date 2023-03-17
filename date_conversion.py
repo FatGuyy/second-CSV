@@ -17,7 +17,7 @@ def get_dates_in_numbers(c):
     g = []
     for word in c:
         w = word.split(" ")
-        d.append(w[0])
+        d.append(w[0]) # Make 1 to get time too
 
     for i in d:
         f.append(i.replace("-"," "))
@@ -38,20 +38,14 @@ def compare_date(check_date, date2):
     """
     
     if date2[0] < check_date[0]:
-        # print("here")
         return False
     else:
         # Now check month
         if date2[1] < check_date[1]:
-            # print("here1")
             return False
         else:
             # Now check day
             if date2[2] < check_date[2]:
-                # print("here2")
                 return False
             else:
-                return True
-
-# c = get_dates_in_numbers(c)
-# print("Res - ", compare_date(c[1], c[2]))
+                return True  # True when date is after the given date
