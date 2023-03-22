@@ -6,7 +6,8 @@ import csv
 from pandas import read_csv
 from date_conversion import get_dates_in_numbers, compare_date
 
-given_date = get_dates_in_numbers(['Jan-16-2012 20:23:21 PST'])
+given_date = get_dates_in_numbers(['Jan-16-12 20:23:21 PST'])
+print(given_date)
 end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
 
 
@@ -29,5 +30,5 @@ def get_index_of_needed_dates(given_date,dates_list):
 
     return ret_list
 
-indexes = get_index_of_needed_dates(given_date, ended_sheet_U_col)
+indexes = get_index_of_needed_dates(given_date[0], ended_sheet_U_col)
 print(indexes)

@@ -82,7 +82,19 @@ def compare_date(check_date, date2):
             if date2[2] < check_date[2]:
                 return False
             else:
-                return True  # True when date is after the given date
+                # Now check hour
+                if date2[3] < check_date[3]:
+                    return False
+                else:
+                    # Now check minutes
+                    if date2[4] < check_date[4]:
+                        return False
+                    else:
+                        # Now check Seconds
+                        if date2[5] < check_date[5]:
+                            return False
+                        else:
+                            return True  # True when date is after the given date
 
 
-get_dates_in_numbers(['Jan-16-12 20:23:21 PST'])
+# get_dates_in_numbers(['Jan-16-12 20:23:21 PST'])
