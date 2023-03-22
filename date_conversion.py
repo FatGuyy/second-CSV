@@ -17,18 +17,14 @@ def get_dates_in_numbers(c):
     g = []
     for word in c:
         w = word.split(" ")
-        d.append(w[0]) # Make 1 to get time.
+        d.append(w[0] +' '+ w[1]) # Make 1 to get time.
 
     for i in d:
-        f.append(i.replace("-"," "))
+        i = i.replace("-"," ")
+        f.append(i.replace(":"," "))
 
-    for i in f:
-        a=repr(datetime.strptime(i, '%b %d %Y'))
-        temp = re.findall(r'\d+', a)
-        res=list(map(int,temp))
-        g.append(res[:3])
-    # print(g)
-    return g
+    print(f)
+    return f
 
 
 # Function to compare if the date is after or before the check_date date
@@ -49,3 +45,6 @@ def compare_date(check_date, date2):
                 return False
             else:
                 return True  # True when date is after the given date
+
+
+get_dates_in_numbers(['Jan-16-2012 20:23:21 PST'])
