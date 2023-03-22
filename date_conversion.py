@@ -5,6 +5,31 @@ from datetime import datetime
 import re
 # c = ['Jan-16-2012 20:23:21 PST','Jan-17-2012 20:23:21 PST','Jan-18-2012 20:23:21 PST','Jan-19-2012 20:23:21 PST']
 
+# Function to name conversion to number
+def month_string_to_number(string):
+    m = {
+        'jan': 1,
+        'feb': 2,
+        'mar': 3,
+        'apr':4,
+         'may':5,
+         'jun':6,
+         'jul':7,
+         'aug':8,
+         'sep':9,
+         'oct':10,
+         'nov':11,
+         'dec':12
+        }
+    s = string.strip()[:3].lower()
+
+    try:
+        out = m[s]
+        return out
+    except:
+        raise ValueError('Not a month')
+
+
 # Fucntion to get the check_date format of date to numbers.
 # Makes easier to compare.
 def get_dates_in_numbers(c):
@@ -23,9 +48,17 @@ def get_dates_in_numbers(c):
         i = i.replace("-"," ")
         i = i.replace(":"," ")
         temp = i.split(" ")
+
+        # Swap the numbers in the list to get right order
+        swap = temp[2]
+        temp[2] = temp[1]
+        temp[1] = temp[0]
+        temp[0] = swap
+
         # Doing the 22 to 2022 thing
-        temp[2] = int(temp[2])
-        temp[2] += 2000
+        temp[0] = int(temp[0])
+        temp[0] += 2000
+        temp[1] = month_string_to_number(temp[1])
         f.append(temp)
 
     # print(f)

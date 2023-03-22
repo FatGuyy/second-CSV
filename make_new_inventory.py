@@ -15,15 +15,15 @@ with open(end_csv_path, "r", encoding='utf-8-sig') as file:
 colData = read_csv(end_csv_path) # read inventory
 data1 = data[0]
 ended_sheet_U_col = colData[data1[20]].tolist() # Ended sheet col U(End date)
-
+# print(ended_sheet_U_col[0])
 
 def get_index_of_needed_dates(given_date,dates_list):
     ret_list = []
     # This gets the dates list in numbers format to compare
     dates_list = get_dates_in_numbers(dates_list)
-    print(dates_list)
+    # print((dates_list[0]))
 
-    for index, value in dates_list:
+    for index, value in enumerate(dates_list):
           if compare_date(given_date, value):
                 ret_list.append(index)
 
