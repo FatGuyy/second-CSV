@@ -21,9 +21,14 @@ def get_dates_in_numbers(c):
 
     for i in d:
         i = i.replace("-"," ")
-        f.append(i.replace(":"," "))
+        i = i.replace(":"," ")
+        temp = i.split(" ")
+        # Doing the 22 to 2022 thing
+        temp[2] = int(temp[2])
+        temp[2] += 2000
+        f.append(temp)
 
-    print(f)
+    # print(f)
     return f
 
 
@@ -47,4 +52,4 @@ def compare_date(check_date, date2):
                 return True  # True when date is after the given date
 
 
-get_dates_in_numbers(['Jan-16-2012 20:23:21 PST'])
+get_dates_in_numbers(['Jan-16-12 20:23:21 PST'])
