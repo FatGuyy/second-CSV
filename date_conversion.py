@@ -2,7 +2,7 @@
 All Date Conversion Fucntions are in this file.
 '''
 from datetime import datetime
-import re
+# import re
 # c = ['Jan-16-2012 20:23:21 PST','Jan-17-2012 20:23:21 PST','Jan-18-2012 20:23:21 PST','Jan-19-2012 20:23:21 PST']
 
 # Function to name conversion to number
@@ -57,11 +57,15 @@ def get_dates_in_numbers(c):
 
         # Doing the 22 to 2022 thing
         temp[0] = int(temp[0])
+        temp[2] = int(temp[2])
+        temp[3] = int(temp[3])
+        temp[4] = int(temp[4])
+        temp[5] = int(temp[5])
         temp[0] += 2000
         temp[1] = month_string_to_number(temp[1])
         f.append(temp)
 
-    # print(f)
+    print(f)
     return f
 
 
