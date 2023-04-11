@@ -3,10 +3,17 @@ This file process all the dates,
 compares all the sku and get new inventory.
 """
 import csv
+import shutil
+import get_groups_inventory
 from pandas import read_csv
 from date_conversion import get_dates_in_numbers, compare_date
 given_date = get_dates_in_numbers(['Jan-16-22 20:23:21 PST'])
 
+# Making a copy of the inventory file
+original_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
+File_to_work = original_path[:-4] + r" back_up.csv"
+print(File_to_work)
+shutil.copyfile(original_path, File_to_work)
 
 # Reading the end csv
 end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
@@ -42,12 +49,12 @@ for i in indexes:
       req_skus.append(ended_sheet_B_col[i])
 
 # Reading the inventory file
-inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
-with open(inventory_csv_path, "r", encoding='utf-8-sig') as file:
+with open(original_path, "r", encoding='utf-8-sig') as file:
       data_inventory = list(csv.reader(file)) # Read Data in rows
-colData = read_csv(inventory_csv_path) # read inventory in col
+colData = read_csv(original_path) # read inventory in col
 data1_inventory = data_inventory[0]
 inventory_sku = colData[data1_inventory[1]].tolist() # Inventory sheet col B(sku)
+inventory_F = colData[data1_inventory[5]].tolist() # Inventory sheet col F
 
 # Getting the indexes of matching SKUs
 inventory_sku_indexes = []
@@ -60,10 +67,15 @@ new_inventory = []
 for index in inventory_sku_indexes:
       new_inventory.append(data_inventory[index])
 
+print(inventory_sku_indexes[-1])
+# getting groups and inserting
+get_groups_inventory.get_groups_inventory(inventory_sku_indexes, original_path, inventory_F)
+
+
 # Writing new inventory
-with open(inventory_csv_path + "_new.csv", 'w', newline='') as file:
-      writer = csv.writer(file)
-      writer.writerow(data1_inventory)
-      for row in new_inventory:
-            writer.writerow(row)
-      print("new inventory csv written...")
+# with open(original_path + "_new.csv", 'w', newline='') as file:
+#       writer = csv.writer(file)
+#       writer.writerow(data1_inventory)
+#       for row in new_inventory:
+#             writer.writerow(row)
+#       print("new inventory csv written...")
