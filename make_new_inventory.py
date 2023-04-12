@@ -4,12 +4,13 @@ compares all the sku and get new inventory.
 """
 import csv
 import shutil
-import get_groups_inventory
+from numpy import nan
 from pandas import read_csv
+import get_groups_inventory
 from date_conversion import get_dates_in_numbers, compare_date
 given_date = get_dates_in_numbers(['Jan-16-22 20:23:21 PST'])
 
-# Making a copy of the inventory file
+# Making a backup of the inventory file
 original_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
 File_to_work = original_path[:-4] + r" back_up.csv"
 print(File_to_work)
@@ -26,17 +27,17 @@ ended_sheet_B_col = colData[data1[1]].tolist() # Ended sheet col B(SKU)
 
 def get_index_of_needed_dates(given_date,dates_list):
     '''
-    converts something.
+    gives you the index of the date after the entered date.
     '''
     ret_list = []
     # This gets the dates list in numbers format to compare
     dates_list = get_dates_in_numbers(dates_list)
+#     print(dates_list)
 
     for index, value in enumerate(dates_list):
           if compare_date(given_date, value):
                 ret_list.append(index)
           else:
-            #     print(value)
                 pass
 
     return ret_list
@@ -55,6 +56,7 @@ colData = read_csv(original_path) # read inventory in col
 data1_inventory = data_inventory[0]
 inventory_sku = colData[data1_inventory[1]].tolist() # Inventory sheet col B(sku)
 inventory_F = colData[data1_inventory[5]].tolist() # Inventory sheet col F
+inventory_G = colData[data1_inventory[6]].tolist() # Inventory sheet col G
 
 # Getting the indexes of matching SKUs
 inventory_sku_indexes = []
@@ -62,20 +64,11 @@ for sku in req_skus:
       if sku in inventory_sku:
             inventory_sku_indexes.append(inventory_sku.index(sku))
 
-# Getting the new inventory as per matching SKUs
-new_inventory = []
-for index in inventory_sku_indexes:
-      new_inventory.append(data_inventory[index])
+# Getting the indexes who only have number in f_col
+indexes_that_value_in_col_f =[]
+for i in inventory_sku_indexes:
+      if inventory_F[i] != nan:
+            indexes_that_value_in_col_f.append(i)
 
-print(inventory_sku_indexes[-1])
 # getting groups and inserting
-get_groups_inventory.get_groups_inventory(inventory_sku_indexes, original_path, inventory_F)
-
-
-# Writing new inventory
-# with open(original_path + "_new.csv", 'w', newline='') as file:
-#       writer = csv.writer(file)
-#       writer.writerow(data1_inventory)
-#       for row in new_inventory:
-#             writer.writerow(row)
-#       print("new inventory csv written...")
+get_groups_inventory.get_groups_inventory(indexes_that_value_in_col_f, inventory_G, inventory_F)

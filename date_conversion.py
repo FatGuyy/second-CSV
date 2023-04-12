@@ -63,42 +63,20 @@ def get_dates_in_numbers(c):
         temp[5] = int(temp[5])
         temp[0] += 2000
         temp[1] = month_string_to_number(temp[1])
-        f.append(temp)
+        f.append([temp])
 
     # print(f)
     return f
 
 
 # Function to compare if the date is after or before the check_date date
-def compare_date(check_date, date2):
-    """
-    Format to be entered is : [year, month, day, ]    
-    """
-    
-    if date2[0] < check_date[0]:
-        return False
-    else:
-        # Now check month
-        if date2[1] < check_date[1]:
+def compare_date(check_date_list, date_list):
+    for i in date_list:
+        check_date = datetime(*check_date_list[0])
+        date = datetime(*i)
+        if date < check_date:
             return False
         else:
-            # Now check day
-            if date2[2] < check_date[2]:
-                return False
-            else:
-                # # Now check hour
-                # if date2[3] < check_date[3]:
-                #     return False
-                # else:
-                #     # Now check minutes
-                #     if date2[4] < check_date[4]:
-                #         return False
-                #     else:
-                #         # Now check Seconds
-                #         if date2[5] < check_date[5]:
-                #             return False
-                #         else:
-                                return True  # True when date is after the given date
+            return True
 
-
-# get_dates_in_numbers(['Jan-16-12 20:23:21 PST'])
+# print(compare_date(get_dates_in_numbers(['Jan-16-12 20:23:21 PST']),get_dates_in_numbers(['Jan-16-12 20:23:23 PST'])))
