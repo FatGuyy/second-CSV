@@ -1,5 +1,6 @@
 """This file gives you the groups of the inventory
-    to get the spot to place the number in
+    to get the spot to place the number in.
+    Basically a utils file
 """
 import csv
 from numpy import nan

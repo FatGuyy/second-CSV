@@ -2,7 +2,7 @@
 This file process all the dates,
 compares all the sku and get new inventory.
 """
-def new_inventory_main(original_path):
+def make_new_inventory_main(given_date, original_path):
       """
       this is just the wrapper for this whole file
       """

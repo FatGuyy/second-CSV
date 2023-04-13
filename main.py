@@ -4,6 +4,9 @@ This is the main file for this project, which handles the making output csv part
 import os
 import csv
 import pandas as pd
+import date_conversion
+import make_new_inventory
+import get_groups_inventory
 from pandas import read_csv
 # from datetime import date
 
@@ -162,7 +165,7 @@ def get_col_L(inventory_col_a):
 
     return ret_list
 
-def main(inventory_csv_path,sold_csv_path, end_csv_path):
+def main(inventory_csv_path):
     # Inventory Sheet file reading
     with open(inventory_csv_path, "r") as file:
         data = list(csv.reader(file))
@@ -248,6 +251,15 @@ if __name__ == "__main__":
     end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
     # output_csv_path = input("Enter path to store output CSV : ")
     output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
-    result =  main(inventory_csv_path=inventory_csv_path, sold_csv_path=sold_csv_path, end_csv_path=end_csv_path)
+    result =  main(inventory_csv_path=inventory_csv_path)
+    
+    # Making the new inventory
+    given_date = date_conversion.get_dates_in_numbers(['Jan-16-22 20:23:21 PST'])
+    make_new_inventory.make_new_inventory_main(given_date=given_date, original_path=inventory_csv_path)
 
+    # Making new sold csv
+
+
+
+    # Writing the output csv
     write_list_to_csv_column("Output", result, output_csv_path)
