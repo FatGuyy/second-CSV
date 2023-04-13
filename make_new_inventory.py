@@ -70,5 +70,39 @@ for i in inventory_sku_indexes:
       if inventory_F[i] != nan:
             indexes_that_value_in_col_f.append(i)
 
-# getting groups and inserting
+# getting new col F for inventory
 new_col_F = get_groups_inventory.make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
+new_col_F = [str(x) if str(x) != 'nan' else '' for x in new_col_F]
+print(new_col_F)
+
+def replace_csv_column(file_path, column_name, new_column_values):
+    """
+    Replace an entire column in a CSV file with new values given as a list.
+    
+    Args:
+        file_path (str): Path to the CSV file.
+        column_name (str): Name of the column to be replaced.
+        new_column_values (list): List of new values for the column.
+    """
+    # Read the CSV file and store its data in a list of dictionaries
+    data = []
+    with open(file_path, 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        data = [row for row in reader]
+
+    # Update the column values in the data
+    for row in data:
+        row[column_name] = new_column_values.pop(0)  # Replace with new value
+        if not new_column_values:  # Break loop if all new values used
+            break
+
+    # Write the updated data back to the CSV file
+    with open(file_path, 'w', newline='') as csvfile:
+        fieldnames = data[0].keys()
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer.writeheader()
+        writer.writerows(data)
+
+# replacing the F column is inventory
+column_name = 'on ebay'
+replace_csv_column(original_path, column_name, new_col_F)
