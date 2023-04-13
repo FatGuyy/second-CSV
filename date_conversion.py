@@ -2,7 +2,6 @@
 All Date Conversion Fucntions are in this file.
 '''
 from datetime import datetime
-# import re
 # c = ['Jan-16-2012 20:23:21 PST','Jan-17-2012 20:23:21 PST','Jan-18-2012 20:23:21 PST','Jan-19-2012 20:23:21 PST']
 
 # Function to name conversion to number
@@ -28,7 +27,6 @@ def month_string_to_number(string):
         return out
     except:
         raise ValueError('Not a month')
-
 
 # Fucntion to get the check_date format of date to numbers.
 # Makes easier to compare.
@@ -67,15 +65,35 @@ def get_dates_in_numbers(c):
 
     return f
 
-
 # Function to compare if the date is after or before the check_date date
-def compare_date(check_date_list, date_list):
+def compare_date(check_date, date_list):
+    # Put the input in list inside 1 list i.e. [[check_list]]
     for i in date_list:
-        check_date = datetime(*check_date_list[0])
+        # check_date = datetime(*check_date[0])
         date = datetime(*i)
         if date < check_date:
             return False
         else:
             return True
 
-# print(compare_date(get_dates_in_numbers(['Jan-16-12 20:23:21 PST']),get_dates_in_numbers(['Jan-16-12 20:23:23 PST'])))
+# print(compare_date(get_dates_in_numbers(['Jan-16-22 20:23:21 PST']),get_dates_in_numbers(['Jan-16-12 20:23:23 PST'])))
+
+# Get the Time right now and store it in a text file
+def write_current_time_to_file(file_name):
+    # Get the current time
+    print(type(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
+    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    
+    # Open the file in write mode and write it.
+    with open(file_name, 'w') as file:
+        file.write(current_time)
+
+# Call the function with the desired file name
+write_current_time_to_file('current_time.txt')
+
+def get_previous_time():
+    with open('current_time.txt', 'r') as file:
+        # Read the first line
+        first_line = file.readline()
+
+        return [datetime.strptime(first_line, '%Y-%m-%d %H:%M:%S')]

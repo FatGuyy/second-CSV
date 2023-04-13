@@ -9,10 +9,13 @@ def make_new_inventory_main(given_date, original_path):
       import csv
       import shutil
       from numpy import nan
+      import date_conversion
       from pandas import read_csv
       import get_groups_inventory
       from date_conversion import get_dates_in_numbers, compare_date
-      given_date = get_dates_in_numbers(['Jan-16-22 20:23:21 PST'])
+      # given_date = get_dates_in_numbers(['Jan-16-22 20:23:21 PST'])
+      given_date = date_conversion.get_previous_time()
+      print(given_date)
 
       # Making a backup of the inventory file
       original_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
@@ -75,8 +78,12 @@ def make_new_inventory_main(given_date, original_path):
       # getting new col F for inventory
       new_col_F = get_groups_inventory.make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
       new_col_F = [str(x) if str(x) != 'nan' else '' for x in new_col_F]
-      print(new_col_F)
+      # print(new_col_F)
 
       # replacing the F column is inventory
       column_name = str(data1_inventory[5])
       get_groups_inventory.replace_csv_column(original_path, column_name, new_col_F)
+
+given = ""
+given1 = ""
+make_new_inventory_main(given, given1)
