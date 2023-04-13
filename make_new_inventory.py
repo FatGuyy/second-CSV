@@ -71,4 +71,4 @@ for i in inventory_sku_indexes:
             indexes_that_value_in_col_f.append(i)
 
 # getting groups and inserting
-get_groups_inventory.get_groups_inventory(indexes_that_value_in_col_f, inventory_G, inventory_F)
+new_col_F = get_groups_inventory.make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)

@@ -1,13 +1,10 @@
 """This file gives you the groups of the inventory
     to get the spot to place the number in
 """
-# import csv
-# from pandas import read_csv
 from numpy import nan
 
-def get_groups_inventory(sku_index,inventory_G, column_F):
+def make_new_col_F(sku_index,inventory_G, column_F):
     # Getting the indexes of the groups
-    # print(inventory_G)
     value_index_of_consecutive = []
     idx = 0
     while idx < (len(inventory_G)):
@@ -38,9 +35,5 @@ def get_groups_inventory(sku_index,inventory_G, column_F):
                 else:
                     column_F[i] = nan
                     column_F[j[1]+2] = current_val_F
-    # print(column_F) 
 
-    # Replace the old column F with new column
-
-
-# original_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
+    return column_F

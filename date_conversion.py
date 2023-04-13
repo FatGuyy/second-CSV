@@ -65,7 +65,6 @@ def get_dates_in_numbers(c):
         temp[1] = month_string_to_number(temp[1])
         f.append([temp])
 
-    # print(f)
     return f
 
 
