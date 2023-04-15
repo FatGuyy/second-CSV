@@ -5,9 +5,9 @@ import os
 import csv
 import pandas as pd
 import date_conversion
-import make_new_inventory
-import get_groups_inventory
 from pandas import read_csv
+import inventoy_first_scramble
+import inventory_scecond_scramble
 # from datetime import date
 
 FIRST_ROW = ['*Action(SiteID=US|Country=US|Currency=USD|Version=745|CC=UTF-8)',
@@ -170,7 +170,6 @@ def main(inventory_csv_path):
     with open(inventory_csv_path, "r") as file:
         data = list(csv.reader(file))
     colData = read_csv(inventory_csv_path) # read inventory
-    print(data)
     data1 = data[0]
     inventory_col_B = colData[data1[1]].tolist() # Inventory sheet col B(sku)
     inventory_col_F = colData[data1[5]].tolist() # Inventory sheet col F
@@ -251,15 +250,14 @@ if __name__ == "__main__":
     end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
     # output_csv_path = input("Enter path to store output CSV : ")
     output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
-    result =  main(inventory_csv_path=inventory_csv_path)
     
-    # Making the new inventory
-    given_date = date_conversion.get_dates_in_numbers(['Jan-16-22 20:23:21 PST'])
-    make_new_inventory.make_new_inventory_main(given_date=given_date, original_path=inventory_csv_path)
+    # Making the new inventory from the end csv (first scramble)
+    given_date = date_conversion.get_previous_time()
+    inventory_skus, inventory_F, inventory_G, column_name = inventoy_first_scramble.first_scramble_of_inventory(given_date=given_date, inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
 
-    # Making new sold csv
+    # Scanning sold csv (Scecond Scramble)
+    inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path, inventory_skus, inventory_F, inventory_G, column_name)    
 
-
-
-    # Writing the output csv
+    # Making output csv & Writing the output csv
+    result = main(inventory_csv_path=inventory_csv_path)
     write_list_to_csv_column("Output", result, output_csv_path)

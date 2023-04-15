@@ -26,7 +26,8 @@ delete that value and add  it to Column F in another random in the same group(Co
 
 ------------------------------------------------------------------------
 sold sheet
-exactly the same accept it will get the skus to match with inventory from column  Y (notice random spaces also)
+exactly the same accept it will get the skus to match with inventory from column  Y 
+(notice random spaces also)
 
 also does not need to look at Column U (no end date needed)
 
@@ -34,7 +35,7 @@ it will then save the inventory file
 
 
 ------------------------------------------------------------------------
-the out csv will have the following values
+the out csv will have the following values - Done
 
 a column
 a1 

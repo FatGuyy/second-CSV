@@ -1,5 +1,5 @@
 '''
-All Date Conversion Fucntions are in this file.
+This file handles all the Time Functions. 
 '''
 from datetime import datetime
 # c = ['Jan-16-2012 20:23:21 PST','Jan-17-2012 20:23:21 PST','Jan-18-2012 20:23:21 PST','Jan-19-2012 20:23:21 PST']
@@ -28,8 +28,7 @@ def month_string_to_number(string):
     except:
         raise ValueError('Not a month')
 
-# Fucntion to get the check_date format of date to numbers.
-# Makes easier to compare.
+# Fucntion to get the check_date format of date to numbers. Makes easier to compare.
 def get_dates_in_numbers(c):
     """
     Format of the date to be entered : 'Jan-16-2012 20:23:21 PST' 
@@ -67,6 +66,10 @@ def get_dates_in_numbers(c):
 
 # Function to compare if the date is after or before the check_date date
 def compare_date(check_date, date_list):
+    '''
+    check date is the actual date type variable.
+    date list is the column from the end csv
+    '''
     # Put the input in list inside 1 list i.e. [[check_list]]
     for i in date_list:
         # check_date = datetime(*check_date[0])
@@ -77,11 +80,10 @@ def compare_date(check_date, date_list):
             return True
 
 # print(compare_date(get_dates_in_numbers(['Jan-16-22 20:23:21 PST']),get_dates_in_numbers(['Jan-16-12 20:23:23 PST'])))
-
+# print(type(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 # Get the Time right now and store it in a text file
 def write_current_time_to_file(file_name):
     # Get the current time
-    print(type(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
     current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     
     # Open the file in write mode and write it.
@@ -89,11 +91,12 @@ def write_current_time_to_file(file_name):
         file.write(current_time)
 
 # Call the function with the desired file name
-write_current_time_to_file('current_time.txt')
+write_current_time_to_file('previous_time.txt')
 
+# Fetches the previous time
 def get_previous_time():
-    with open('current_time.txt', 'r') as file:
+    with open('previous_time.txt', 'r') as file:
         # Read the first line
         first_line = file.readline()
 
-        return [datetime.strptime(first_line, '%Y-%m-%d %H:%M:%S')]
+        return datetime.strptime(first_line, '%Y-%m-%d %H:%M:%S')
