@@ -2,15 +2,22 @@
 This file does the second scramble of inventory file. (i.e. using sold csv) 
 '''
 import csv
-import shutil
-from numpy import nan
+# import shutil
+# from numpy import nan
 from pandas import read_csv
-from inventoy_first_scramble import make_new_col_F, replace_csv_column
+from inventory_first_scramble import make_new_col_F, replace_csv_column
 
-def second_scramble(sold_csv_path, inventory_path, inventory_skus, inventory_F, inventory_G, column_name):
-    # Making a backup of the inventory file
-    File_to_work = sold_csv_path[:-4] + r" back_up.csv"
-    shutil.copyfile(sold_csv_path, File_to_work)
+def second_scramble(sold_csv_path, inventory_path):
+    # Reading the inventory file
+    with open(inventory_path, "r", encoding='utf-8-sig') as file:
+          data_inventory = list(csv.reader(file)) # Read Data in rows
+    colData = read_csv(inventory_path) # read inventory in col
+    data1_inventory = data_inventory[0]
+    inventory_skus = colData[data1_inventory[1]].tolist() # Inventory sheet col B(sku)
+    column_name = str(data1_inventory[5]) # Getting name of the col F
+    inventory_F = colData[data1_inventory[5]].tolist() # Inventory sheet col F
+    inventory_F = [str(x) if str(x) != 'nan' else '' for x in inventory_F]
+    inventory_G = colData[data1_inventory[6]].tolist() # Inventory sheet col G
 
     # Reading the sold csv
     colData = read_csv(sold_csv_path, skiprows=1) # read sold in col, skipping the first row as its empty
@@ -24,16 +31,19 @@ def second_scramble(sold_csv_path, inventory_path, inventory_skus, inventory_F, 
     for sku in req_skus:
         if sku in inventory_skus:
                 inventory_sku_indexes.append(inventory_skus.index(sku))
+    print('2nd inventory sku index - ', inventory_sku_indexes)
 
-    # Swapping F column
+    # Swapping F column : Getting the indexes who only have number in f_col
     indexes_that_value_in_col_f =[]
     for i in inventory_sku_indexes:
-        if inventory_F[i] != nan or inventory_F[i] != '':
-                indexes_that_value_in_col_f.append(i)
+        if inventory_F[i] != '':
+            indexes_that_value_in_col_f.append(i)
+    print('2nd inventory F have value - ', indexes_that_value_in_col_f)
 
     # getting new col F for inventory
     new_col_F = make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
-    new_col_F = [str(x) if str(x) != 'nan' else '' for x in new_col_F]
-    
+    # new_col_F = [str(x) if str(x) != 'nan' else '' for x in new_col_F]
+    print(new_col_F)
+
     # replacing the F column is inventory
     replace_csv_column(inventory_path, column_name, new_col_F)

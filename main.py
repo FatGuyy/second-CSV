@@ -6,7 +6,7 @@ import csv
 import pandas as pd
 import date_conversion
 from pandas import read_csv
-import inventoy_first_scramble
+import inventory_first_scramble
 import inventory_scecond_scramble
 # from datetime import date
 
@@ -243,20 +243,21 @@ def main(inventory_csv_path):
 
 if __name__ == "__main__":
     # inventory_csv_path = input("Enter Inventory sheet path : ")
-    inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
+    inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/testing/rp inventory (1).csv"
     # sold_csv_path = input("Enter sold sheet path : ")
-    sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
+    sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/testing/sold.csv"
     # end_csv_path = input("Enter the end csv path : ")
-    end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
+    end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/testing/end.csv"
     # output_csv_path = input("Enter path to store output CSV : ")
-    output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
+    output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/testing"
     
     # Making the new inventory from the end csv (first scramble)
     given_date = date_conversion.get_previous_time()
-    inventory_skus, inventory_F, inventory_G, column_name = inventoy_first_scramble.first_scramble_of_inventory(given_date=given_date, inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
+    inventory_first_scramble.first_scramble_of_inventory(given_date=given_date, inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
+    # print(inventory_F)
 
     # Scanning sold csv (Scecond Scramble)
-    inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path, inventory_skus, inventory_F, inventory_G, column_name)    
+    inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path)    
 
     # Making output csv & Writing the output csv
     result = main(inventory_csv_path=inventory_csv_path)
