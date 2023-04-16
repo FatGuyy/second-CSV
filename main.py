@@ -262,3 +262,6 @@ if __name__ == "__main__":
     # Making output csv & Writing the output csv
     result = main(inventory_csv_path=inventory_csv_path)
     write_list_to_csv_column("Output", result, output_csv_path)
+
+    # Waiting for user to press any key before exiting
+    input('Press any key to end program...')

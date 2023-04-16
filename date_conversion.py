@@ -2,7 +2,6 @@
 This file handles all the Time Functions. 
 '''
 from datetime import datetime
-# c = ['Jan-16-2012 20:23:21 PST','Jan-17-2012 20:23:21 PST','Jan-18-2012 20:23:21 PST','Jan-19-2012 20:23:21 PST']
 
 # Function to name conversion to number
 def month_string_to_number(string):
@@ -79,8 +78,6 @@ def compare_date(check_date, date_list):
         else:
             return True
 
-# print(compare_date(get_dates_in_numbers(['Jan-16-22 20:23:21 PST']),get_dates_in_numbers(['Jan-16-12 20:23:23 PST'])))
-# print(type(datetime.now().strftime('%Y-%m-%d %H:%M:%S')))
 # Get the Time right now and store it in a text file
 def write_current_time_to_file(file_name):
     # Get the current time

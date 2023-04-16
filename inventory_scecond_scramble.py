@@ -31,19 +31,19 @@ def second_scramble(sold_csv_path, inventory_path):
     for sku in req_skus:
         if sku in inventory_skus:
                 inventory_sku_indexes.append(inventory_skus.index(sku))
-    print('2nd inventory sku index - ', inventory_sku_indexes)
+    # print('2nd inventory sku index - ', inventory_sku_indexes)
 
     # Swapping F column : Getting the indexes who only have number in f_col
     indexes_that_value_in_col_f =[]
     for i in inventory_sku_indexes:
         if inventory_F[i] != '':
             indexes_that_value_in_col_f.append(i)
-    print('2nd inventory F have value - ', indexes_that_value_in_col_f)
+    # print('2nd inventory F have value - ', indexes_that_value_in_col_f)
 
     # getting new col F for inventory
     new_col_F = make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
     # new_col_F = [str(x) if str(x) != 'nan' else '' for x in new_col_F]
-    print(new_col_F)
+    # print(new_col_F)
 
     # replacing the F column is inventory
     replace_csv_column(inventory_path, column_name, new_col_F)
