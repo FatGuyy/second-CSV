@@ -3,9 +3,9 @@ This file process all the dates,
 compares all the sku and get new inventory.
 """
 import csv
-import math
+# import math
 import shutil
-from numpy import nan
+# from numpy import nan
 import date_conversion
 from pandas import read_csv
 from date_conversion import get_dates_in_numbers, compare_date
@@ -107,7 +107,6 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     column_name = str(data1_inventory[5]) # Getting name of the col F
     inventory_F = colData[data1_inventory[5]].tolist() # Inventory sheet col F
     inventory_F = [str(x) if str(x) != 'nan' else '' for x in inventory_F]
-    # print('inentory F - ',inventory_F)
     inventory_G = colData[data1_inventory[6]].tolist() # Inventory sheet col G
 
     # Getting the indexes of matching SKUs

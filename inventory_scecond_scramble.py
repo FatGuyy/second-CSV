@@ -2,8 +2,6 @@
 This file does the second scramble of inventory file. (i.e. using sold csv) 
 '''
 import csv
-# import shutil
-# from numpy import nan
 from pandas import read_csv
 from inventory_first_scramble import make_new_col_F, replace_csv_column
 
