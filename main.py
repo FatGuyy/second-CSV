@@ -135,7 +135,7 @@ def write_list_to_csv_column(name_of_file, files, folder_path):
                        FIRST_ROW[59]: files[59],
                        FIRST_ROW[60]: files[60]})
     df.to_csv(os.path.join(folder_path, (name_of_file + '.csv')), index=False)
-    print("output csv written...")
+    print("Writing output csv...")
 
 def none_value(length):
     return ['' for _ in range(length)]
@@ -143,10 +143,11 @@ def none_value(length):
 def static(length, value):
     return [value for _ in range(length)]
 
-def conditional(F_col, check1, check2, input1, check3, input2):
+def conditional(F_col, check1, check2, input1, check3, input2, length):
     ret_list = []    
 
     for i in F_col:
+        # Actual loop
         if i == check1 or i == check2:
             ret_list.append(input1)
         elif i == check3:
@@ -154,16 +155,16 @@ def conditional(F_col, check1, check2, input1, check3, input2):
         else:   # for empty cell  
             ret_list.append(None)
 
-    return ret_list
+    return ret_list[:length]
 
-def get_col_L(inventory_col_a):
+def get_col_L(inventory_col_a, length):
     ret_list = []
     
     for i in inventory_col_a:
         element = f'''<div style="text-align: center;">{i}</div><meta name="viewport"''' + ''' content="width=device-width, initial-scale=1.0"><style>img{max-width:100%}</style><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><br></div><div style="text-align: center;"><img src="https://american-autographs.com/toimages//Alison%20Rey%20_9-29-2017_0010_0080.jpg"></div><div style="text-align: center; font-family: Arial; font-size: 14pt;"><br></div><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>Currently up for sale is a&nbsp;high quality reproduction autographed 8x10 photo.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>This is not an original autographed photo, it is a copy of an authentic signed 8x10.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>All photos we sell are not cheap computer print outs, our photos are printed on lab quality paper.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>Domestic shipping and handling is 5.00 for the 1st photo won, and no additional cost per extra.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>International shipping and handling is 17.00 for the 1st photo won, and no additional cost per extra.</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><strong>If you are not happy for any reason we offer a NO questions asked 30 day money back guarantee</strong></li></ul><ul style="font-family: Arial; font-size: 14pt;"><li style="text-align: center;"><b>Please check out the rest of our listing for more great photos.</b></li></ul><div id="inkfrog_crosspromo_bottom" style="font-family: Arial; font-size: 14pt;"><br><img src="https://www.facebook.com/tr?id=284520783611053&amp;ev=PageView" height="1" width="1" style="display:none"></font></div>'''
         ret_list.append(element)
 
-    return ret_list
+    return ret_list[:length]
 
 def main(inventory_csv_path):
     # Inventory Sheet file reading
@@ -176,22 +177,22 @@ def main(inventory_csv_path):
     inventory_col_A = colData[data1[0]].tolist() # Inventory sheet col A
     # inventory_col_E = colData[data1[4]].tolist() # Inventory sheet col E
 
-    length = len(inventory_col_B)
+    length = len(inventory_col_A)
     ret_col_a = static(length, value="Add")
-    ret_col_b = inventory_col_B
-    ret_col_c = conditional(inventory_col_F, 23, 23, 262421, 24, 104414) # conditional
+    ret_col_b = inventory_col_B[:length]
+    ret_col_c = conditional(inventory_col_F, 2, 24, 104414, 23, 262421, length) # conditional 104414
     ret_col_d = static(length, value=3152810012)
-    ret_col_e = inventory_col_A # Column from inventory
+    ret_col_e = inventory_col_A[:length] # Column from inventory
     ret_col_f = static(length, value=1000)
     ret_col_g = static(length, value="Unbranded")
     ret_col_h = static(length, value="Photograph")
-    ret_col_i = static(length, value="Nothing") # Nothing case
-    ret_col_j = colData[data1[4]].tolist() # invenetory col E
+    ret_col_i = static(length, value="") # Nothing case
+    ret_col_j = (colData[data1[4]].tolist())[:length] # inventory col E
     ret_col_k = static(length, value="Gallery")
-    ret_col_l = get_col_L(inventory_col_A) # speacial condition
-    ret_col_m = conditional(inventory_col_F, 23, 24, "FixedPriceItem", 2, "Auction") # condtion
-    ret_col_n = conditional(inventory_col_F, 23, 24, "GTC", 2, 7) # condtion
-    ret_col_o = conditional(inventory_col_F, 23, 24, 12.95, 2, 6.95) # condtion
+    ret_col_l = get_col_L(inventory_col_A, length) # speacial condition
+    ret_col_m = conditional(inventory_col_F, 23, 24, "FixedPriceItem", 2, "Auction", length) # condtion
+    ret_col_n = conditional(inventory_col_F, 23, 24, "GTC", 2, 7, length) # condtion
+    ret_col_o = conditional(inventory_col_F, 23, 24, 12.95, 2, 6.95, length) # condtion
     ret_col_p = static(length, value=1)
     ret_col_q = static(length, value=1)
     ret_col_r = static(length, value="stali2cali@gmail.com")
@@ -217,11 +218,11 @@ def main(inventory_csv_path):
     ret_col_al = static(length, value="USPSFirstClassMailInternational")
     ret_col_am = static(length, value="Worldwide")
     ret_col_an = static(length, value="17")
-    ret_col_ao = conditional(inventory_col_F, 23, 24, 1, 2, "nothing") # Nothing condtion
-    ret_col_ap = conditional(inventory_col_F, 23, 24, 1, 2, "nothing") # Nothing condtion
-    ret_col_aq = conditional(inventory_col_F, 23, 24, 7, 2, "nothing") # Nothing condtion
-    ret_col_ar = conditional(inventory_col_F, 23, 24, 1, 2, "nothing") # Nothing condtion
-    ret_col_as = conditional(inventory_col_F, 23, 24, 6.95, 2, "nothing") # Nothing condtion
+    ret_col_ao = conditional(inventory_col_F, 23, 24, 1, 2, "", length) # Nothing condtion
+    ret_col_ap = conditional(inventory_col_F, 23, 24, 1, 2, "", length) # Nothing condtion
+    ret_col_aq = conditional(inventory_col_F, 23, 24, 7, 2, "", length) # Nothing condtion
+    ret_col_ar = conditional(inventory_col_F, 23, 24, 1, 2, "", length) # Nothing condtion
+    ret_col_as = conditional(inventory_col_F, 23, 24, 6.95, 2, "", length) # Nothing condtion
     ret_col_at = static(length, value="Worldwide")
     ret_col_au = none_value(length)
     ret_col_av = none_value(length)
@@ -230,42 +231,63 @@ def main(inventory_csv_path):
     ret_col_ay = none_value(length)
     ret_col_az = none_value(length)
     ret_col_ba = none_value(length)
-    ret_col_bb = colData[data1[7]].tolist() # condtion
+    ret_col_bb = (colData[data1[7]].tolist())[:length] # condtion
     ret_col_bc = static(length, value="Movies")
     ret_col_bd = static(length, value="Reproduction")
-    ret_col_be = conditional(inventory_col_F, 3, 24, " ", 23, "Art,Glamour,Model,Nudes") # condtion
-    ret_col_bf = conditional(inventory_col_F, 3, 24, " ", 23, "8x10 photo") # condtion
-    ret_col_bg = conditional(inventory_col_F, 3, 24, " ", 23, "Nude") # condtion
-    ret_col_bh = conditional(inventory_col_F, 3, 24, " ", 23, "Artistic Nudes,Nude") # condtion
-    ret_col_bi = conditional(inventory_col_F, 3, 24, " ", 23, "New") # condtion
+    ret_col_be = conditional(inventory_col_F, 3, 24, " ", 23, "Art,Glamour,Model,Nudes", length) # condtion
+    ret_col_bf = conditional(inventory_col_F, 3, 24, " ", 23, "8x10 photo", length) # condtion
+    ret_col_bg = conditional(inventory_col_F, 3, 24, " ", 23, "Nude", length) # condtion
+    ret_col_bh = conditional(inventory_col_F, 3, 24, " ", 23, "Artistic Nudes,Nude", length) # condtion
+    ret_col_bi = conditional(inventory_col_F, 3, 24, " ", 23, "New", length) # condtion
 
-    return [ret_col_a, ret_col_b, ret_col_c,ret_col_d,ret_col_e,ret_col_f,ret_col_g,ret_col_h,ret_col_i,ret_col_j,ret_col_k,ret_col_l,ret_col_m,ret_col_n,ret_col_o,ret_col_p,ret_col_q,ret_col_r,ret_col_s,ret_col_t,ret_col_u,ret_col_v,ret_col_w,ret_col_x,ret_col_y,ret_col_z,ret_col_aa,ret_col_ab,ret_col_ac,ret_col_ad,ret_col_ae,ret_col_af,ret_col_ag,ret_col_ah,ret_col_ai,ret_col_aj,ret_col_ak,ret_col_al,ret_col_am,ret_col_an,ret_col_ao,ret_col_ap,ret_col_aq,ret_col_ar,ret_col_as,ret_col_at,ret_col_au,ret_col_av,ret_col_aw,ret_col_ax,ret_col_ay,ret_col_az,ret_col_ba,ret_col_bb,ret_col_bc,ret_col_bd,ret_col_be,ret_col_bf,ret_col_bg,ret_col_bh,ret_col_bi,]
+    return [ret_col_a[:length], ret_col_b[:length], ret_col_c[:length],ret_col_d[:length],ret_col_e[:length],ret_col_f[:length],ret_col_g[:length],ret_col_h[:length],ret_col_i[:length],
+            ret_col_j[:length],ret_col_k[:length],ret_col_l[:length],ret_col_m[:length],ret_col_n[:length],ret_col_o[:length],ret_col_p[:length],ret_col_q[:length],ret_col_r[:length],
+            ret_col_s[:length],ret_col_t[:length],ret_col_u[:length],ret_col_v[:length],ret_col_w[:length],ret_col_x[:length],ret_col_y[:length],ret_col_z[:length],
+            ret_col_aa[:length],ret_col_ab[:length],ret_col_ac[:length],ret_col_ad[:length],ret_col_ae[:length],ret_col_af[:length],ret_col_ag[:length],ret_col_ah[:length],ret_col_ai[:length],
+            ret_col_aj[:length],ret_col_ak[:length],ret_col_al[:length],ret_col_am[:length],ret_col_an[:length],ret_col_ao[:length],ret_col_ap[:length],ret_col_aq[:length],ret_col_ar[:length],
+            ret_col_as[:length],ret_col_at[:length],ret_col_au[:length],ret_col_av[:length],ret_col_aw[:length],ret_col_ax[:length],ret_col_ay[:length],ret_col_az[:length],
+            ret_col_ba[:length],ret_col_bb[:length],ret_col_bc[:length],ret_col_bd[:length],ret_col_be[:length],ret_col_bf[:length],ret_col_bg[:length],ret_col_bh[:length],ret_col_bi[:length]]
 
 if __name__ == "__main__":
-    # inventory_csv_path = input("Enter Inventory sheet path : ")
-    inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/new_inventory.csv"
-    # sold_csv_path = input("Enter sold sheet path : ")
-    sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
-    # end_csv_path = input("Enter the end csv path : ")
-    end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
-    # output_csv_path = input("Enter path to store output CSV : ")
-    output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
-    
+    inventory_csv_path = input("Enter Inventory sheet path : ")
+    # inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/new_inventory.csv"
+    sold_csv_path = input("Enter sold sheet path : ")
+    # sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
+    end_csv_path = input("Enter the end csv path : ")
+    # end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
+    output_csv_path = input("Enter path to store output CSV : ")
+    # output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
+
+    # Reading the number of rows in sold csv
+    rows_in_sold = (read_csv(sold_csv_path)).shape[0]
+
+    # Reading the end csv
+    with open(end_csv_path, "r", encoding='utf-8-sig') as file:
+            data = list(csv.reader(file))
+    colData = read_csv(end_csv_path) # read End csv
+    rows_in_end = colData.shape[0]
+    data1 = data[0]
+    end_sheet_U_col = colData[data1[20]].tolist() # Ended sheet col U(End date)
+    # Writing time for this current run.
+    date_conversion.write_current_time_to_file(end_sheet_U_col)
+
     # Making the new inventory from the end csv (first scramble)
     print('Scanning end csv...')
     given_date = date_conversion.get_previous_time()
-    inventory_first_scramble.first_scramble_of_inventory(given_date=given_date, inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
+    new_inventory = inventory_first_scramble.first_scramble_of_inventory(given_date=given_date[0], inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
     # print(inventory_F)
+    # print(given_date[0])
 
     # Scanning sold csv (Scecond Scramble)
     print('Scanning sold csv...')
-    inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path)    
+    new_inventory = inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path, new_inventory)    
 
     # Making output csv & Writing the output csv
     print('Making Output csv...')
-    result = main(inventory_csv_path=inventory_csv_path)
+    result = main(inventory_csv_path=inventory_csv_path+"_new.csv")
+
     write_list_to_csv_column("Output", result, output_csv_path)
 
     # Waiting for user to press any key before exiting
     print()
-    input('All Done. Press any key to end program...')
+    input('All Done. Press ENTER to end program...')

@@ -71,7 +71,7 @@ def compare_date(check_date, date_list):
     '''
     # Put the input in list inside 1 list i.e. [[check_list]]
     for i in date_list:
-        # check_date = datetime(*check_date[0])
+        check_date = datetime(*check_date[0])
         date = datetime(*i)
         if date < check_date:
             return False
@@ -79,16 +79,13 @@ def compare_date(check_date, date_list):
             return True
 
 # Get the Time right now and store it in a text file
-def write_current_time_to_file(file_name):
+def write_current_time_to_file(endcsv_U_column):
     # Get the current time
-    current_time = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    current_time = endcsv_U_column[-1]
     
     # Open the file in write mode and write it.
-    with open(file_name, 'w') as file:
+    with open('previous_time.txt', 'w') as file:
         file.write(current_time)
-
-# Call the function with the desired file name
-write_current_time_to_file('previous_time.txt')
 
 # Fetches the previous time
 def get_previous_time():
@@ -96,4 +93,5 @@ def get_previous_time():
         # Read the first line
         first_line = file.readline()
 
-        return datetime.strptime(first_line, '%Y-%m-%d %H:%M:%S')
+        # return datetime.strptime(first_line, '%Y-%m-%d %H:%M:%S')
+        return get_dates_in_numbers([first_line])

@@ -6,7 +6,7 @@ import csv
 # import math
 import shutil
 # from numpy import nan
-import date_conversion
+# import date_conversion
 from pandas import read_csv
 from date_conversion import get_dates_in_numbers, compare_date
 
@@ -77,7 +77,6 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     this file makes the first scramble of the inventory file
     """
     # given_date = get_dates_in_numbers(['Jan-16-22 20:23:21 PST'])
-    given_date = date_conversion.get_previous_time()
 
     # Making a backup of the inventory file
     File_to_work = inventory_path[:-4] + r" back_up.csv"
@@ -92,6 +91,8 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     ended_sheet_B_col = colData[data1[1]].tolist() # Ended sheet col B(SKU)
     indexes = get_index_of_needed_dates(given_date, ended_sheet_U_col)
     # print('indexes of the time after - ',indexes)
+    # given_date = date_conversion.get_previous_time()
+
 
     # Get all the SKUs form the ended file
     req_skus = []
@@ -113,6 +114,7 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     inventory_sku_indexes = []
     for sku in req_skus:
         if sku in inventory_sku:
+            # print(inventory_sku.index(sku))
             inventory_sku_indexes.append(inventory_sku.index(sku))
     # print('sku indexes - ', inventory_sku_indexes)
 
@@ -120,16 +122,21 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     indexes_that_value_in_col_f =[]
     for i in inventory_sku_indexes:
         if inventory_F[i] != '':
-            print(inventory_F[i])
             indexes_that_value_in_col_f.append(i)
     # print('have value - ',indexes_that_value_in_col_f)
 
     # getting new col F for inventory
     new_col_F = make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
-    # new_col_F = [str(x) if str(x) != 'nan' else '' for x in new_col_F]
-    # print('new col F - ', new_col_F)
 
     # replacing the F column is inventory
     replace_csv_column(inventory_path, column_name, new_col_F)
 
-    # return inventory_sku, inventory_F, inventory_G, column_name
+    # Getting the new inventory as per matching SKUs
+    # print('inventory_sku_indexes : ',len(inventory_sku_indexes))
+    new_inventory = []
+    for index in inventory_sku_indexes:
+        new_inventory.append(data_inventory[index])
+
+    return new_inventory
+
+

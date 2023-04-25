@@ -80,3 +80,10 @@
 #                     print('col F ',column_F)
 
 #     return column_F
+
+
+    # for index, i in enumerate(result):
+        # if len(i) != (rows_in_end + rows_in_sold):
+            # pass
+            # print((i))
+            # print()

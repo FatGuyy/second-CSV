@@ -5,7 +5,7 @@ import csv
 from pandas import read_csv
 from inventory_first_scramble import make_new_col_F, replace_csv_column
 
-def second_scramble(sold_csv_path, inventory_path):
+def second_scramble(sold_csv_path, inventory_path, new_inventory):
     # Reading the inventory file
     with open(inventory_path, "r", encoding='utf-8-sig') as file:
           data_inventory = list(csv.reader(file)) # Read Data in rows
@@ -20,8 +20,8 @@ def second_scramble(sold_csv_path, inventory_path):
     # Reading the sold csv
     colData = read_csv(sold_csv_path, skiprows=1) # read sold in col, skipping the first row as its empty
     with open(sold_csv_path, "r", encoding='utf-8-sig') as file:
-            data_inventory = list(csv.reader(file)) # Read Data in rows
-    data1_inventory = data_inventory[1]
+            data_inventory1 = list(csv.reader(file)) # Read Data in rows
+    data1_inventory = data_inventory1[1]
     req_skus = colData[data1_inventory[24]].tolist() # Sold sheet col Y (SKUs)
 
     # Match these sku with inventory sku 
@@ -45,3 +45,17 @@ def second_scramble(sold_csv_path, inventory_path):
 
     # replacing the F column is inventory
     replace_csv_column(inventory_path, column_name, new_col_F)
+
+
+    # Getting the new inventory as per matching SKUs
+    # print('inventory_sku_indexes : ',len(inventory_sku_indexes))
+    for index in inventory_sku_indexes:
+        new_inventory.append(data_inventory[index])
+
+    # Writing new inventory
+    with open(inventory_path + "_new.csv", 'w', newline='') as file:
+          writer = csv.writer(file)
+          writer.writerow(data1_inventory)
+          for row in new_inventory:
+                writer.writerow(row)
+    return new_inventory
