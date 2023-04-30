@@ -170,7 +170,7 @@ def main(inventory_csv_path):
     # Inventory Sheet file reading
     with open(inventory_csv_path, "r") as file:
         data = list(csv.reader(file))
-    colData = read_csv(inventory_csv_path) # read inventoryf
+    colData = read_csv(inventory_csv_path, low_memory=False) # read inventoryf
     data1 = data[0]
     inventory_col_B = colData[data1[1]].tolist() # Inventory sheet col B(sku)
     inventory_col_F = colData[data1[5]].tolist() # Inventory sheet col F
@@ -249,14 +249,17 @@ def main(inventory_csv_path):
             ret_col_ba,ret_col_bb,ret_col_bc,ret_col_bd,ret_col_be,ret_col_bf,ret_col_bg,ret_col_bh,ret_col_bi]
 
 if __name__ == "__main__":
-    inventory_csv_path = input("Enter Inventory sheet path : ")
-    # inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/new_inventory.csv"
-    sold_csv_path = input("Enter sold sheet path : ")
-    # sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
-    end_csv_path = input("Enter the end csv path : ")
-    # end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
-    output_csv_path = input("Enter path to store output CSV : ")
-    # output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
+    # inventory_csv_path = input("Enter Inventory sheet path : ")
+    inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/new_inventory.csv"
+    # inventory_csv_path = r"/home/fatguy/Downloads/rp inventory.csv"
+    # sold_csv_path = input("Enter sold sheet path : ")
+    sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
+    # sold_csv_path = r"/home/fatguy/Downloads/01 sold.csv"
+    # end_csv_path = input("Enter the end csv path : ")
+    end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
+    # end_csv_path = r"/home/fatguy/Downloads/0 end.csv"
+    # output_csv_path = input("Enter path to store output CSV : ")
+    output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
 
     # Reading the number of rows in sold csv
     rows_in_sold = (read_csv(sold_csv_path)).shape[0]
@@ -268,19 +271,20 @@ if __name__ == "__main__":
     rows_in_end = colData.shape[0]
     data1 = data[0]
     end_sheet_U_col = colData[data1[20]].tolist() # Ended sheet col U(End date)
+
     # Writing time for this current run.
     date_conversion.write_current_time_to_file(end_sheet_U_col)
 
     # Making the new inventory from the end csv (first scramble)
     print('Scanning end csv...')
-    given_date = date_conversion.get_previous_time()
+    given_date = date_conversion.get_dates_in_numbers([date_conversion.get_previous_time()])
     new_inventory = inventory_first_scramble.first_scramble_of_inventory(given_date=given_date[0], inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
-    # print(inventory_F)
     # print(given_date[0])
 
     # Scanning sold csv (Scecond Scramble)
     print('Scanning sold csv...')
-    new_inventory = inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path, new_inventory)    
+    new_inventory = inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path, new_inventory)
+    # print("new inventory - ",new_inventory)
 
     # Making output csv & Writing the output csv
     print('Making Output csv...')

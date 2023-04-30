@@ -31,18 +31,13 @@ def make_new_col_F(sku_index, inventory_G, column_F):
     '''
     sku_index has the indexes that are to be swapped.
     '''
-    for index in sku_index:
-        current_val = column_F[index]
-        group = inventory_G[index]
-        for i, val in enumerate(inventory_G):
-            if i != index and val == group and column_F[i] == '':
-                column_F[i] = int(float(current_val))
-                # print("1. column F - ", i)
-                column_F[index] = ''
-                # print("column F - ",column_F)
+    for i in sku_index:
+        for j in range(len(column_F)):
+            if j != i and column_F[j] == '' and inventory_G[j] == inventory_G[i]:
+                column_F[j], column_F[i] = column_F[i], column_F[j]
                 break
 
-    return column_F
+    return (column_F)
 
 def replace_csv_column(file_path, column_name, new_column_values):
           """
@@ -90,9 +85,6 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     ended_sheet_U_col = colData[data1[20]].tolist() # Ended sheet col U(End date)
     ended_sheet_B_col = colData[data1[1]].tolist() # Ended sheet col B(SKU)
     indexes = get_index_of_needed_dates(given_date, ended_sheet_U_col)
-    # print('indexes of the time after - ',indexes)
-    # given_date = date_conversion.get_previous_time()
-
 
     # Get all the SKUs form the ended file
     req_skus = []
@@ -114,16 +106,17 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     inventory_sku_indexes = []
     for sku in req_skus:
         if sku in inventory_sku:
-            # print(inventory_sku.index(sku))
             inventory_sku_indexes.append(inventory_sku.index(sku))
-    # print('sku indexes - ', inventory_sku_indexes)
 
     # Getting the indexes who only have number in f_col
     indexes_that_value_in_col_f =[]
     for i in inventory_sku_indexes:
         if inventory_F[i] != '':
             indexes_that_value_in_col_f.append(i)
-    # print('have value - ',indexes_that_value_in_col_f)
+
+    for i in indexes_that_value_in_col_f:
+        if inventory_F[i] == '':
+            print('Holly hell')
 
     # getting new col F for inventory
     new_col_F = make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
@@ -132,11 +125,8 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     replace_csv_column(inventory_path, column_name, new_col_F)
 
     # Getting the new inventory as per matching SKUs
-    # print('inventory_sku_indexes : ',len(inventory_sku_indexes))
     new_inventory = []
     for index in inventory_sku_indexes:
-        new_inventory.append(data_inventory[index])
+        new_inventory.append(data_inventory[index+1])
 
     return new_inventory
-
-

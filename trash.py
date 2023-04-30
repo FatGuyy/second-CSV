@@ -87,3 +87,25 @@
             # pass
             # print((i))
             # print()
+
+
+
+# def make_new_col_F(sku_index, inventory_G, column_F):
+#     '''
+#     sku_index has the indexes that are to be swapped.
+#     '''
+#     for index in sku_index:
+#         current_val = column_F[index]
+#         group = inventory_G[index]
+#         for i, val in enumerate(inventory_G):
+#             if i != index and val == group and column_F[i] == '':
+#                 # column_F[i] = int(float(current_val))
+#                 try:
+#                     column_F[i] = int(float(current_val))
+#                 except ValueError:
+#                     print(f"Could not convert {current_val} to float at index {index}, {i}")
+
+#                 column_F[index] = ''
+#                 break
+
+#     return column_F

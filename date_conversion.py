@@ -3,6 +3,15 @@ This file handles all the Time Functions.
 '''
 from datetime import datetime
 
+# Convert datetime to csv time format
+def convert_datetime_format(datetime_str):
+    # convert string to datetime object
+    datetime_obj = datetime.strptime(datetime_str, '%Y-%m-%d %H:%M:%S')
+    # convert datetime object to desired format
+    formatted_datetime_str = datetime_obj.strftime('%b-%d-%y %H:%M:%S')
+    return formatted_datetime_str
+
+
 # Function to name conversion to number
 def month_string_to_number(string):
     m = {
@@ -63,6 +72,14 @@ def get_dates_in_numbers(c):
 
     return f
 
+# Function to get the latest date from a list
+def find_latest_date(date_list):
+    latest_date = date_list[0] # assume first date is latest
+    for date in date_list:
+        if compare_date(date, latest_date):
+            latest_date = date
+    return latest_date
+
 # Function to compare if the date is after or before the check_date date
 def compare_date(check_date, date_list):
     '''
@@ -70,8 +87,8 @@ def compare_date(check_date, date_list):
     date list is the column from the end csv
     '''
     # Put the input in list inside 1 list i.e. [[check_list]]
+    check_date = datetime(*check_date[0])
     for i in date_list:
-        check_date = datetime(*check_date[0])
         date = datetime(*i)
         if date < check_date:
             return False
@@ -81,11 +98,12 @@ def compare_date(check_date, date_list):
 # Get the Time right now and store it in a text file
 def write_current_time_to_file(endcsv_U_column):
     # Get the current time
-    current_time = endcsv_U_column[-1]
+    current_time = find_latest_date(get_dates_in_numbers(endcsv_U_column))
+    current_time = datetime(*current_time[0])
     
     # Open the file in write mode and write it.
     with open('previous_time.txt', 'w') as file:
-        file.write(current_time)
+        file.write(str(current_time))
 
 # Fetches the previous time
 def get_previous_time():
@@ -94,4 +112,4 @@ def get_previous_time():
         first_line = file.readline()
 
         # return datetime.strptime(first_line, '%Y-%m-%d %H:%M:%S')
-        return get_dates_in_numbers([first_line])
+        return convert_datetime_format(first_line)
