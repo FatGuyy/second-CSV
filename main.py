@@ -8,7 +8,6 @@ import date_conversion
 from pandas import read_csv
 import inventory_first_scramble
 import inventory_scecond_scramble
-# from datetime import date
 
 FIRST_ROW = ['*Action(SiteID=US|Country=US|Currency=USD|Version=745|CC=UTF-8)',
              'CustomLabel',
@@ -135,7 +134,7 @@ def write_list_to_csv_column(name_of_file, files, folder_path):
                        FIRST_ROW[59]: files[59],
                        FIRST_ROW[60]: files[60]})
     df.to_csv(os.path.join(folder_path, (name_of_file + '.csv')), index=False)
-    print("Writing output csv...")
+    print("Writing Output csv...")
 
 def none_value(length):
     return ['' for _ in range(length)]
@@ -249,49 +248,58 @@ def main(inventory_csv_path):
             ret_col_ba,ret_col_bb,ret_col_bc,ret_col_bd,ret_col_be,ret_col_bf,ret_col_bg,ret_col_bh,ret_col_bi]
 
 if __name__ == "__main__":
-    # inventory_csv_path = input("Enter Inventory sheet path : ")
-    inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/new_inventory.csv"
-    # inventory_csv_path = r"/home/fatguy/Downloads/rp inventory.csv"
-    # sold_csv_path = input("Enter sold sheet path : ")
-    sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
-    # sold_csv_path = r"/home/fatguy/Downloads/01 sold.csv"
-    # end_csv_path = input("Enter the end csv path : ")
-    end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
-    # end_csv_path = r"/home/fatguy/Downloads/0 end.csv"
-    # output_csv_path = input("Enter path to store output CSV : ")
-    output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
+    try:
+        # inventory_csv_path = input("Enter Inventory sheet path : ")
+        # inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/new_inventory.csv"
+        inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(1).csv"
+        # sold_csv_path = input("Enter sold sheet path : ")
+        # sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
+        sold_csv_path = r"/home/fatguy/Downloads/sold csv.csv"
+        # end_csv_path = input("Enter the end csv path : ")
+        # end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
+        end_csv_path = r"/home/fatguy/Downloads/end csv.csv"
+        # output_csv_path = input("Enter path to store output CSV : ")
+        # output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
+        output_csv_path = r"/home/fatguy/Downloads"
 
-    # Reading the number of rows in sold csv
-    rows_in_sold = (read_csv(sold_csv_path)).shape[0]
+        # Reading the number of rows in sold csv
+        rows_in_sold = (read_csv(sold_csv_path)).shape[0]
 
-    # Reading the end csv
-    with open(end_csv_path, "r", encoding='utf-8-sig') as file:
-            data = list(csv.reader(file))
-    colData = read_csv(end_csv_path) # read End csv
-    rows_in_end = colData.shape[0]
-    data1 = data[0]
-    end_sheet_U_col = colData[data1[20]].tolist() # Ended sheet col U(End date)
+        # Reading the end csv
+        with open(end_csv_path, "r", encoding='utf-8-sig') as file:
+                data = list(csv.reader(file))
+        colData = read_csv(end_csv_path) # read End csv
+        rows_in_end = colData.shape[0]
+        data1 = data[0]
+        end_sheet_U_col = colData[data1[20]].tolist() # Ended sheet col U(End date)
 
-    # Writing time for this current run.
-    date_conversion.write_current_time_to_file(end_sheet_U_col)
+        # Writing time for this current run.
+        date_conversion.write_current_time_to_file(end_sheet_U_col)
 
-    # Making the new inventory from the end csv (first scramble)
-    print('Scanning end csv...')
-    given_date = date_conversion.get_dates_in_numbers([date_conversion.get_previous_time()])
-    new_inventory = inventory_first_scramble.first_scramble_of_inventory(given_date=given_date[0], inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
-    # print(given_date[0])
+        # Making the new inventory from the end csv (first scramble)
+        print('Scanning end csv...')
+        given_date = date_conversion.get_dates_in_numbers([date_conversion.get_previous_time()])
+        new_inventory = inventory_first_scramble.first_scramble_of_inventory(given_date=given_date[0], inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
+        # print(given_date[0])
 
-    # Scanning sold csv (Scecond Scramble)
-    print('Scanning sold csv...')
-    new_inventory = inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path, new_inventory)
-    # print("new inventory - ",new_inventory)
+        # Scanning sold csv (Scecond Scramble)
+        print('Scanning sold csv...')
+        new_inventory = inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path, new_inventory)
+        # print("new inventory - ",new_inventory)
 
-    # Making output csv & Writing the output csv
-    print('Making Output csv...')
-    result = main(inventory_csv_path=inventory_csv_path+"_new.csv")
+        # Making output csv & Writing the output csv
+        print('Making Output csv...')
+        # result = main(inventory_csv_path=inventory_csv_path+"_new.csv")
+        result = main(inventory_csv_path=inventory_csv_path)
 
-    write_list_to_csv_column("Output", result, output_csv_path)
 
-    # Waiting for user to press any key before exiting
-    print()
-    input('All Done. Press ENTER to end program...')
+        write_list_to_csv_column("Output", result, output_csv_path)
+
+        # Waiting for user to press any key before exiting
+        print()
+        input('All Done. Press ENTER to end program...')
+    except Exception as e:
+        print("exception - ", e)
+
+        input('All Done. Press ENTER to end program...')
+

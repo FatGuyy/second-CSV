@@ -11,7 +11,6 @@ def convert_datetime_format(datetime_str):
     formatted_datetime_str = datetime_obj.strftime('%b-%d-%y %H:%M:%S')
     return formatted_datetime_str
 
-
 # Function to name conversion to number
 def month_string_to_number(string):
     m = {

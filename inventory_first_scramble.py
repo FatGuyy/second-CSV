@@ -3,10 +3,7 @@ This file process all the dates,
 compares all the sku and get new inventory.
 """
 import csv
-# import math
 import shutil
-# from numpy import nan
-# import date_conversion
 from pandas import read_csv
 from date_conversion import get_dates_in_numbers, compare_date
 
@@ -114,9 +111,9 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
         if inventory_F[i] != '':
             indexes_that_value_in_col_f.append(i)
 
-    for i in indexes_that_value_in_col_f:
-        if inventory_F[i] == '':
-            print('Holly hell')
+    # for i in indexes_that_value_in_col_f:
+    #     if inventory_F[i] == '':
+    #         print('Holly hell')
 
     # getting new col F for inventory
     new_col_F = make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
