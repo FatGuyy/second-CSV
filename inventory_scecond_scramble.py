@@ -7,7 +7,7 @@ from inventory_first_scramble import make_new_col_F, replace_csv_column
 
 def second_scramble(sold_csv_path, inventory_path, new_inventory):
     # Reading the inventory file
-    with open(inventory_path, "r", encoding='utf-8-sig') as file:
+    with open(inventory_path, "r", encoding='utf-8') as file:
           data_inventory = list(csv.reader(file)) # Read Data in rows
     colData = read_csv(inventory_path) # read inventory in col
     data1_inventory = data_inventory[0]
@@ -18,13 +18,21 @@ def second_scramble(sold_csv_path, inventory_path, new_inventory):
     inventory_G = colData[data1_inventory[6]].tolist() # Inventory sheet col G
 
     # Reading the sold csv
-    colData = read_csv(sold_csv_path, skiprows=1) # read sold in col, skipping the first row as its empty
-    with open(sold_csv_path, "r", encoding='utf-8-sig') as file:
+    with open(sold_csv_path, "r", encoding='utf-8') as file:
         data_inventory1 = list(csv.reader(file)) # Read Data in rows
-    data1_inventory = data_inventory1[1]
-    # print("data inventory - ",(data1_inventory))
+
+    # checking if the first row is empty, so to take 2nd row
+    if not data_inventory1[0]:
+        colData = read_csv(sold_csv_path, skiprows=1) # read sold in col, skipping the first row as its empty
+        data1_inventory = data_inventory1[1]
+    else:
+        colData = read_csv(sold_csv_path) # read sold in col, not skipping first row
+        data1_inventory = data_inventory1[0]
+
+    # print("data inventory - ",(data1_inventory[24]))
     req_skus = colData[data1_inventory[24]].tolist() # Sold sheet col Y (SKUs)
 
+    
     # Match these sku with inventory sku 
     inventory_sku_indexes = []
     for sku in req_skus:

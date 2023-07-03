@@ -75,7 +75,7 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     shutil.copyfile(inventory_path, File_to_work)
 
     # Reading the end csv
-    with open(end_csv_path, "r", encoding='utf-8-sig') as file:
+    with open(end_csv_path, "r", encoding='utf-8') as file:
             data = list(csv.reader(file))
     colData = read_csv(end_csv_path) # read End csv
     data1 = data[0]
@@ -89,7 +89,7 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
         req_skus.append(ended_sheet_B_col[i])
 
     # Reading the inventory file
-    with open(inventory_path, "r", encoding='utf-8-sig') as file:
+    with open(inventory_path, "r", encoding='utf-8') as file:
         data_inventory = list(csv.reader(file)) # Read Data in rows
     colData = read_csv(inventory_path) # read inventory in col
     data1_inventory = data_inventory[0]
