@@ -3,6 +3,7 @@ This file process all the dates,
 compares all the sku and get new inventory.
 """
 import csv
+import datetime
 import shutil
 from pandas import read_csv
 from date_conversion import get_dates_in_numbers, compare_date
@@ -71,7 +72,8 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     # given_date = get_dates_in_numbers(['Jan-16-22 20:23:21 PST'])
 
     # Making a backup of the inventory file
-    File_to_work = inventory_path[:-4] + r" back_up.csv"
+    File_to_work = inventory_path[:-4] + str(datetime.datetime.now()) + r" back_up.csv" 
+    # print("file to work : ",File_to_work)
     shutil.copyfile(inventory_path, File_to_work)
 
     # Reading the end csv

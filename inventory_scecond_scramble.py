@@ -21,13 +21,15 @@ def second_scramble(sold_csv_path, inventory_path, new_inventory):
     with open(sold_csv_path, "r", encoding='utf-8') as file:
         data_inventory1 = list(csv.reader(file)) # Read Data in rows
 
-    # checking if the first row is empty, so to take 2nd row
-    if not data_inventory1[0]:
+    # checking if the first row is empty, so to take 2nd row - working as intended.
+    if data_inventory1[0][1] != "":
         colData = read_csv(sold_csv_path, skiprows=1) # read sold in col, skipping the first row as its empty
-        data1_inventory = data_inventory1[1]
-    else:
-        colData = read_csv(sold_csv_path) # read sold in col, not skipping first row
         data1_inventory = data_inventory1[0]
+        # print("if : ",data1_inventory)
+    else:
+        colData = read_csv(sold_csv_path, header=1) # read sold in col, not skipping first row
+        data1_inventory = data_inventory1[1]
+        # print("else : ",data1_inventory)
 
     # print("data inventory - ",(data1_inventory[24]))
     req_skus = colData[data1_inventory[24]].tolist() # Sold sheet col Y (SKUs)
