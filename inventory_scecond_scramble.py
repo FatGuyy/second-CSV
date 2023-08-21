@@ -58,6 +58,7 @@ def second_scramble(sold_csv_path, inventory_path, new_inventory):
             indexes_that_value_in_col_f.append(i)
 
     # getting new col F for inventory
+    # print("sku_index : ", indexes_that_value_in_col_f)
     new_col_F = make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
     
     # replacing the F column is inventory

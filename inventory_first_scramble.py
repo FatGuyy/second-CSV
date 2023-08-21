@@ -73,7 +73,6 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
 
     # Making a backup of the inventory file
     File_to_work = inventory_path[:-4] + str(datetime.datetime.now()) + r" back_up.csv" 
-    # print("file to work : ",File_to_work)
     shutil.copyfile(inventory_path, File_to_work)
 
     # Reading the end csv
@@ -115,9 +114,9 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
 
     # for i in indexes_that_value_in_col_f:
     #     if inventory_F[i] == '':
-    #         print('Holly hell')
 
     # getting new col F for inventory
+    # print("Sku-Index : ",indexes_that_value_in_col_f)
     new_col_F = make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
 
     # replacing the F column is inventory
