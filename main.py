@@ -248,16 +248,16 @@ def main(inventory_csv_path):
             ret_col_ba,ret_col_bb,ret_col_bc,ret_col_bd,ret_col_be,ret_col_bf,ret_col_bg,ret_col_bh,ret_col_bi]
 
 if __name__ == "__main__":
-    try:
+    # try:
         # inventory_csv_path = input("Enter Inventory sheet path : ")
-        inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
-        # inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(1).csv"
+        # inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
+        inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(2).csv"
         # sold_csv_path = input("Enter sold sheet path : ")
-        sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
-        # sold_csv_path = r"/home/fatguy/Downloads/sold csv.csv"
+        # sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
+        sold_csv_path = r"/home/fatguy/Downloads/sold(1).csv"
         # end_csv_path = input("Enter the end csv path : ")
-        end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
-        # end_csv_path = r"/home/fatguy/Downloads/end csv.csv"
+        # end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
+        end_csv_path = r"/home/fatguy/Downloads/end(1).csv"
         # output_csv_path = input("Enter path to store output CSV : ")
         output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
         # output_csv_path = r"/home/fatguy/Downloads"
@@ -293,12 +293,12 @@ if __name__ == "__main__":
         result = main(inventory_csv_path=inventory_csv_path)
 
         directory_name = os.path.splitext(os.path.basename(inventory_csv_path))[0]
-        write_list_to_csv_column(f"Output_for_{directory_name}", result, output_csv_path)
+        write_list_to_csv_column(f"Output for {directory_name}", result, output_csv_path)
 
         # Waiting for user to press any key before exiting
         print()
         input('All Done. Press ENTER to end program...')
-    except Exception as e:
-        print("\nexception occurred - ", e)
+    # except Exception as e:
+        # print("\nexception occurred - ", e)
 # 
-        input('All Done. Press ENTER to end program...')
+        # input('All Done. Press ENTER to end program...')
