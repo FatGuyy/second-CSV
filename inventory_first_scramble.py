@@ -69,8 +69,6 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     """
     this file makes the first scramble of the inventory file
     """
-    # given_date = get_dates_in_numbers(['Jan-16-22 20:23:21 PST'])
-
     # Making a backup of the inventory file
     File_to_work = inventory_path[:-4] + str(datetime.datetime.now()) + r" back_up.csv" 
     shutil.copyfile(inventory_path, File_to_work)
@@ -88,6 +86,7 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     req_skus = []
     for i in indexes:
         req_skus.append(ended_sheet_B_col[i])
+    print("req_skus end : ",req_skus)
 
     # Reading the inventory file
     with open(inventory_path, "r", encoding='utf-8') as file:
@@ -101,10 +100,15 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     inventory_G = colData[data1_inventory[6]].tolist() # Inventory sheet col G
 
     # Getting the indexes of matching SKUs
+    # print("inventory sku end",inventory_sku)
     inventory_sku_indexes = []
+    print(inventory_sku[7975], "==", req_skus[0])
     for sku in req_skus:
+        sku = sku.strip()
         if sku in inventory_sku:
             inventory_sku_indexes.append(inventory_sku.index(sku))
+            print("sku : ",sku)
+    print("inventory_sku_indexes end : ", inventory_sku_indexes)
 
     # Getting the indexes who only have number in f_col
     indexes_that_value_in_col_f =[]
@@ -112,11 +116,7 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
         if inventory_F[i] != '':
             indexes_that_value_in_col_f.append(i)
 
-    # for i in indexes_that_value_in_col_f:
-    #     if inventory_F[i] == '':
-
     # getting new col F for inventory
-    # print("Sku-Index : ",indexes_that_value_in_col_f)
     new_col_F = make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
 
     # replacing the F column is inventory
@@ -127,4 +127,4 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     for index in inventory_sku_indexes:
         new_inventory.append(data_inventory[index+1])
 
-    return new_inventory
+    return new_inventory, inventory_sku_indexes

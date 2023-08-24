@@ -25,11 +25,11 @@ def second_scramble(sold_csv_path, inventory_path, new_inventory):
     if data_inventory1[0][1] != "":
         colData = read_csv(sold_csv_path) # read sold in col, skipping the first row as its empty
         data1_inventory = data_inventory1[0]
-        print("if : ",data1_inventory)
+        # print("if : ",data1_inventory)
     else:
         colData = read_csv(sold_csv_path, skiprows=1, header=1) # read sold in col, not skipping first row
         data1_inventory = data_inventory1[1]
-        print("else : ",data1_inventory)
+        # print("else : ",data1_inventory)
 
     # print("data inventory - ",(data1_inventory[24]))
     req_skus = colData[data1_inventory[24]].tolist() # Sold sheet col Y (SKUs)
@@ -37,19 +37,15 @@ def second_scramble(sold_csv_path, inventory_path, new_inventory):
     
     # Match these sku with inventory sku 
     inventory_sku_indexes = []
+    req_skus = [item for item in req_skus if str(item) != 'nan']
+    print("req-skus sold : ",req_skus)
     for sku in req_skus:
         if sku in inventory_skus:
                 inventory_sku_indexes.append(inventory_skus.index(sku))
 
+    print("inventory_sku_indexes sold : ",inventory_sku_indexes)
     for index in inventory_sku_indexes:
         new_inventory.append(data_inventory[index+1])
-
-    # Writing new inventory
-    # with open(inventory_path + "_new.csv", 'w', newline='') as file:
-    #       writer = csv.writer(file)
-    #       writer.writerow(data1_inventory)
-    #       for row in new_inventory:
-    #             writer.writerow(row)
 
     # Swapping F column, Getting the indexes who only have number in f_col
     indexes_that_value_in_col_f =[]
@@ -58,11 +54,11 @@ def second_scramble(sold_csv_path, inventory_path, new_inventory):
             indexes_that_value_in_col_f.append(i)
 
     # getting new col F for inventory
-    # print("sku_index : ", indexes_that_value_in_col_f)
+    print("sku_index sold : ", indexes_that_value_in_col_f)
     new_col_F = make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
     
     # replacing the F column is inventory
     replace_csv_column(inventory_path, column_name, new_col_F)
     
 
-    return new_inventory
+    return new_inventory, inventory_sku_indexes

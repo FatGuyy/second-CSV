@@ -136,6 +136,18 @@ def write_list_to_csv_column(name_of_file, files, folder_path):
     df.to_csv(os.path.join(folder_path, (name_of_file + '.csv')), index=False)
     print("Writing Output csv...")
 
+def create_new_csv(input_csv_path, output_csv_path, selected_indexes):
+    with open(input_csv_path, "r", newline="", encoding="utf-8") as input_file:
+        reader = csv.reader(input_file)
+        rows = list(reader)
+
+    selected_rows = [rows[i] for i in selected_indexes]
+
+    with open(output_csv_path, "w", newline="", encoding="utf-8") as output_file:
+        writer = csv.writer(output_file)
+        writer.writerows(selected_rows)
+
+
 def none_value(length):
     return ['' for _ in range(length)]
 
@@ -249,18 +261,18 @@ def main(inventory_csv_path):
 
 if __name__ == "__main__":
     try:
-        inventory_csv_path = input("Enter Inventory sheet path : ")
+        # inventory_csv_path = input("Enter Inventory sheet path : ")
         # inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
-        # inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(2).csv"
-        sold_csv_path = input("Enter sold sheet path : ")
+        inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(2).csv"
+        # sold_csv_path = input("Enter sold sheet path : ")
         # sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
-        # sold_csv_path = r"/home/fatguy/Downloads/sold(1).csv"
-        end_csv_path = input("Enter the end csv path : ")
+        sold_csv_path = r"/home/fatguy/Downloads/sold(1).csv"
+        # end_csv_path = input("Enter the end csv path : ")
         # end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
-        # end_csv_path = r"/home/fatguy/Downloads/end(1).csv"
-        output_csv_path = input("Enter path to store output CSV : ")
+        end_csv_path = r"/home/fatguy/Downloads/end(1).csv"
+        # output_csv_path = input("Enter path to store output CSV : ")
         # output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
-        # output_csv_path = r"/home/fatguy/Downloads"
+        output_csv_path = r"/home/fatguy/Downloads"
 
         # Reading the number of rows in sold csv
         rows_in_sold = (read_csv(sold_csv_path)).shape[0]
@@ -280,19 +292,21 @@ if __name__ == "__main__":
         date_conversion.write_current_time_to_file(end_sheet_U_col)
 
         # Making the new inventory from the end csv (first scramble)
-        print('Scanning end csv...')
-        new_inventory = inventory_first_scramble.first_scramble_of_inventory(given_date=given_date[0], inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
+        print('\033[1mScanning end csv...\033[0m')
+        new_inventory, end_csv_indexes = inventory_first_scramble.first_scramble_of_inventory(given_date=given_date[0], inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
 
         # Scanning sold csv (Scecond Scramble)
-        print('Scanning sold csv...')
-        new_inventory = inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path, new_inventory)
+        print('\033[1mScanning sold csv...\033[0m')
+        new_inventory, sold_csv_indexes = inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path, new_inventory)
 
         # Making output csv & Writing the output csv
-        print('Making Output csv...')
-        # result = main(inventory_csv_path=inventory_csv_path+"_new.csv")
+        print('\033[1mMaking Output csv...\033[0m')
+        print("end_csv_indexes + sold_csv_indexes : ",end_csv_indexes+sold_csv_indexes)
         result = main(inventory_csv_path=inventory_csv_path)
 
+        # Making new Inventory for the output file to be made.
         directory_name = os.path.splitext(os.path.basename(inventory_csv_path))[0]
+        create_new_csv(inventory_csv_path, output_csv_path + f"/inventory for output of {directory_name}.csv", end_csv_indexes+sold_csv_indexes)
         write_list_to_csv_column(f"Output for {directory_name}", result, output_csv_path)
 
         # Waiting for user to press any key before exiting
