@@ -72,6 +72,7 @@ FIRST_ROW = ['*Action(SiteID=US|Country=US|Currency=USD|Version=745|CC=UTF-8)',
              'C:Condition']
 
 def write_list_to_csv_column(name_of_file, files, folder_path):
+    # df = pd.DataFrame({FIRST_ROW[i]: files[i] for i in range(len(FIRST_ROW))})
     df = pd.DataFrame({FIRST_ROW[0]: files[0],
                        FIRST_ROW[1]: files[1],
                        FIRST_ROW[2]: files[2],
@@ -136,6 +137,26 @@ def write_list_to_csv_column(name_of_file, files, folder_path):
     df.to_csv(os.path.join(folder_path, (name_of_file + '.csv')), index=False)
     print("Writing Output csv...")
 
+def check_lengths(files):
+    expected_length = len(FIRST_ROW)
+    for i, row in enumerate(files):
+        if len(row) != expected_length:
+            print(f"Row {i+1} has incorrect length: {len(row)} (Expected: {expected_length})")
+
+def create_csv_from_list_of_lists(data_list, header_list, output_file_path):
+    # Transpose the list of lists to make inner lists columns
+    transposed_data = list(map(list, zip(*data_list)))
+
+    # Create a dictionary from the transposed data with header_list as keys
+    data_dict = {header: column_data for header, column_data in zip(header_list, transposed_data)}
+
+    # Create a DataFrame from the data_dict
+    df = pd.DataFrame(data_dict)
+
+    # Write the DataFrame to a CSV file
+    df.to_csv(output_file_path, index=False)
+    print(f"CSV file '{output_file_path}' created successfully.")
+
 def create_new_csv(input_csv_path, output_csv_path, selected_indexes):
     with open(input_csv_path, "r", newline="", encoding="utf-8") as input_file:
         reader = csv.reader(input_file)
@@ -146,7 +167,6 @@ def create_new_csv(input_csv_path, output_csv_path, selected_indexes):
     with open(output_csv_path, "w", newline="", encoding="utf-8") as output_file:
         writer = csv.writer(output_file)
         writer.writerows(selected_rows)
-
 
 def none_value(length):
     return ['' for _ in range(length)]
@@ -179,14 +199,16 @@ def get_col_L(inventory_col_a):
 
 def main(inventory_csv_path):
     # Inventory Sheet file reading
-    with open(inventory_csv_path, "r") as file:
-        data = list(csv.reader(file))
-    colData = read_csv(inventory_csv_path, low_memory=False) # read inventoryf
-    data1 = data[0]
-    inventory_col_B = colData[data1[1]].tolist() # Inventory sheet col B(sku)
-    inventory_col_F = colData[data1[5]].tolist() # Inventory sheet col F
-    inventory_col_A = colData[data1[0]].tolist() # Inventory sheet col A
+    inventory_col_B = [] # colData[data1[1]].tolist() # Inventory sheet col B(sku)
+    inventory_col_F = [] # colData[data1[5]].tolist() # Inventory sheet col F
+    inventory_col_A = [] # colData[data1[0]].tolist() # Inventory sheet col A
     # inventory_col_E = colData[data1[4]].tolist() # Inventory sheet col E
+    with open(inventory_csv_path, "r") as file:
+        data = (csv.reader(file))
+        for row in data:
+            inventory_col_B.append(row[1])
+            inventory_col_F.append(row[5])
+            inventory_col_A.append(row[0])
 
     length = len(inventory_col_A)
     ret_col_a = static(length, value="Add")
@@ -260,7 +282,7 @@ def main(inventory_csv_path):
             ret_col_ba,ret_col_bb,ret_col_bc,ret_col_bd,ret_col_be,ret_col_bf,ret_col_bg,ret_col_bh,ret_col_bi]
 
 if __name__ == "__main__":
-    try:
+    # try:
         # inventory_csv_path = input("Enter Inventory sheet path : ")
         # inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
         inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(2).csv"
@@ -302,17 +324,20 @@ if __name__ == "__main__":
         # Making output csv & Writing the output csv
         print('\033[1mMaking Output csv...\033[0m')
         print("end_csv_indexes + sold_csv_indexes : ",end_csv_indexes+sold_csv_indexes)
-        result = main(inventory_csv_path=inventory_csv_path)
 
         # Making new Inventory for the output file to be made.
         directory_name = os.path.splitext(os.path.basename(inventory_csv_path))[0]
-        create_new_csv(inventory_csv_path, output_csv_path + f"/inventory for output of {directory_name}.csv", end_csv_indexes+sold_csv_indexes)
-        write_list_to_csv_column(f"Output for {directory_name}", result, output_csv_path)
+        create_new_csv(inventory_csv_path, output_csv_path + f"/inventory_for_output_of_{directory_name}.csv", end_csv_indexes+sold_csv_indexes)
+        result = main(inventory_csv_path=output_csv_path + f"/inventory_for_output_of_{directory_name}.csv")
+        print(result[9])
+        check_lengths(result)
+        # write_list_to_csv_column(f"Output_for_{directory_name}", result, output_csv_path)
+        # create_csv_from_list_of_lists(data_list=result, header_list=FIRST_ROW, output_file_path=output_csv_path + f"/output{directory_name}.csv")
 
         # Waiting for user to press any key before exiting
         print()
         input('All Done. Press ENTER to end program...')
-    except Exception as e:
-        print("\nexception occurred - ", e)
+    # except Exception as e:
+        # print("\nexception occurred - ", e)
 # 
-        input('All Done. Press ENTER to end program...')
+        # input('All Done. Press ENTER to end program...')

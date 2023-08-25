@@ -100,22 +100,19 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     inventory_G = colData[data1_inventory[6]].tolist() # Inventory sheet col G
 
     # Getting the indexes of matching SKUs
-    # print("inventory sku end",inventory_sku)
     inventory_sku_indexes = []
-    print(inventory_sku[7975], "==", req_skus[0])
     for sku in req_skus:
         sku = sku.strip()
         if sku in inventory_sku:
             inventory_sku_indexes.append(inventory_sku.index(sku))
-            print("sku : ",sku)
     print("inventory_sku_indexes end : ", inventory_sku_indexes)
 
     # Getting the indexes who only have number in f_col
     indexes_that_value_in_col_f =[]
     for i in inventory_sku_indexes:
         if inventory_F[i] != '':
-            indexes_that_value_in_col_f.append(i)
 
+            indexes_that_value_in_col_f.append(i)
     # getting new col F for inventory
     new_col_F = make_new_col_F(indexes_that_value_in_col_f, inventory_G, inventory_F)
 
