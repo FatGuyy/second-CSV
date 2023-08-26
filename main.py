@@ -199,16 +199,14 @@ def get_col_L(inventory_col_a):
 
 def main(inventory_csv_path):
     # Inventory Sheet file reading
-    inventory_col_B = [] # colData[data1[1]].tolist() # Inventory sheet col B(sku)
-    inventory_col_F = [] # colData[data1[5]].tolist() # Inventory sheet col F
-    inventory_col_A = [] # colData[data1[0]].tolist() # Inventory sheet col A
-    # inventory_col_E = colData[data1[4]].tolist() # Inventory sheet col E
     with open(inventory_csv_path, "r") as file:
-        data = (csv.reader(file))
-        for row in data:
-            inventory_col_B.append(row[1])
-            inventory_col_F.append(row[5])
-            inventory_col_A.append(row[0])
+        data = list(csv.reader(file))
+    colData = read_csv(inventory_csv_path, low_memory=False) # read inventoryf
+    data1 = data[0]
+    inventory_col_B = colData[data1[1]].tolist() # Inventory sheet col B(sku)
+    inventory_col_F = colData[data1[5]].tolist() # Inventory sheet col F
+    inventory_col_A = colData[data1[0]].tolist() # Inventory sheet col A
+    # inventory_col_E = colData[data1[4]].tolist() # Inventory sheet col E
 
     length = len(inventory_col_A)
     ret_col_a = static(length, value="Add")
@@ -323,15 +321,14 @@ if __name__ == "__main__":
 
         # Making output csv & Writing the output csv
         print('\033[1mMaking Output csv...\033[0m')
-        print("end_csv_indexes + sold_csv_indexes : ",end_csv_indexes+sold_csv_indexes)
+        print("end_csv_indexes + sold_csv_indexes : ", ([0] + end_csv_indexes+sold_csv_indexes))
 
         # Making new Inventory for the output file to be made.
         directory_name = os.path.splitext(os.path.basename(inventory_csv_path))[0]
-        create_new_csv(inventory_csv_path, output_csv_path + f"/inventory_for_output_of_{directory_name}.csv", end_csv_indexes+sold_csv_indexes)
+        create_new_csv(inventory_csv_path, output_csv_path + f"/inventory_for_output_of_{directory_name}.csv", ([0] + end_csv_indexes+sold_csv_indexes))
         result = main(inventory_csv_path=output_csv_path + f"/inventory_for_output_of_{directory_name}.csv")
-        print(result[9])
-        check_lengths(result)
-        # write_list_to_csv_column(f"Output_for_{directory_name}", result, output_csv_path)
+        # check_lengths(result)
+        write_list_to_csv_column(f"Output_for_{directory_name}", result, output_csv_path)
         # create_csv_from_list_of_lists(data_list=result, header_list=FIRST_ROW, output_file_path=output_csv_path + f"/output{directory_name}.csv")
 
         # Waiting for user to press any key before exiting
