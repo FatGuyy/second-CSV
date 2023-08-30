@@ -289,7 +289,7 @@ if __name__ == "__main__":
         sold_csv_path = r"/home/fatguy/Downloads/sold(1).csv"
         # end_csv_path = input("Enter the end csv path : ")
         # end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
-        end_csv_path = r"/home/fatguy/Downloads/end(1).csv"
+        end_csv_path = r"/home/fatguy/Downloads/end.csv"
         # output_csv_path = input("Enter path to store output CSV : ")
         # output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
         output_csv_path = r"/home/fatguy/Downloads"
