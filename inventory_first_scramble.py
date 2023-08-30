@@ -1,6 +1,6 @@
 """
 This file process all the dates,
-compares all the sku and get new inventory.
+Does all the scrambling using the END csv.
 """
 import csv
 import datetime
@@ -86,7 +86,6 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     req_skus = []
     for i in indexes:
         req_skus.append(ended_sheet_B_col[i])
-    print("req_skus end : ",req_skus)
 
     # Reading the inventory file
     with open(inventory_path, "r", encoding='utf-8') as file:
@@ -105,7 +104,6 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
         sku = sku.strip()
         if sku in inventory_sku:
             inventory_sku_indexes.append(inventory_sku.index(sku))
-    print("inventory_sku_indexes end : ", inventory_sku_indexes)
 
     # Getting the indexes who only have number in f_col
     indexes_that_value_in_col_f =[]

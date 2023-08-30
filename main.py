@@ -135,7 +135,7 @@ def write_list_to_csv_column(name_of_file, files, folder_path):
                        FIRST_ROW[59]: files[59],
                        FIRST_ROW[60]: files[60]})
     df.to_csv(os.path.join(folder_path, (name_of_file + '.csv')), index=False)
-    print("Writing Output csv...")
+    print("\033[1mWriting Output csv...\033[0m")
 
 def create_new_csv(input_csv_path, output_csv_path, selected_indexes):
     with open(input_csv_path, "r", newline="", encoding="utf-8") as input_file:
@@ -261,18 +261,18 @@ def main(inventory_csv_path):
 
 if __name__ == "__main__":
     try:
-        # inventory_csv_path = input("Enter Inventory sheet path : ")
+        inventory_csv_path = input("Enter Inventory sheet path : ")
         # inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
-        inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(2).csv"
-        # sold_csv_path = input("Enter sold sheet path : ")
+        # inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(2) (copy).csv"
+        sold_csv_path = input("Enter sold sheet path : ")
         # sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
-        sold_csv_path = r"/home/fatguy/Downloads/sold(1).csv"
-        # end_csv_path = input("Enter the end csv path : ")
+        # sold_csv_path = r"/home/fatguy/Downloads/sold.csv"
+        end_csv_path = input("Enter the end csv path : ")
         # end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
-        end_csv_path = r"/home/fatguy/Downloads/end.csv"
-        # output_csv_path = input("Enter path to store output CSV : ")
+        # end_csv_path = r"/home/fatguy/Downloads/end.csv"
+        output_csv_path = input("Enter path to store output CSV : ")
         # output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
-        output_csv_path = r"/home/fatguy/Downloads"
+        # output_csv_path = r"/home/fatguy/Downloads"
 
         # Reading the number of rows in sold csv
         rows_in_sold = (read_csv(sold_csv_path)).shape[0]
@@ -301,7 +301,7 @@ if __name__ == "__main__":
 
         # Making output csv & Writing the output csv
         print('\033[1mMaking Output csv...\033[0m')
-        print("end_csv_indexes + sold_csv_indexes : ", ([0] + end_csv_indexes+sold_csv_indexes))
+        # print("end_csv_indexes + sold_csv_indexes : ", ([0] + end_csv_indexes+sold_csv_indexes))
 
         # Making new Inventory for the output file to be made.
         directory_name = os.path.splitext(os.path.basename(inventory_csv_path))[0]
@@ -315,4 +315,4 @@ if __name__ == "__main__":
     except Exception as e:
         print("\nexception occurred - ", e)
 
-        input('All Done. Press ENTER to end program...')
+        input('Press ENTER to end program...')
