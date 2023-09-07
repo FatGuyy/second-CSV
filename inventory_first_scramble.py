@@ -3,6 +3,7 @@ This file process all the dates,
 Does all the scrambling using the END csv.
 """
 import csv
+import pandas as pd
 import datetime
 import shutil
 from pandas import read_csv
@@ -73,14 +74,20 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     File_to_work = inventory_path[:-4] + str(datetime.datetime.now()) + r" back_up.csv" 
     shutil.copyfile(inventory_path, File_to_work)
 
+
+    # Access the "End date" column by name
+    df = pd.read_csv(end_csv_path, encoding='utf-8')
+    end_date_column = df["End date"].tolist()
+
+
     # Reading the end csv
     with open(end_csv_path, "r", encoding='utf-8') as file:
             data = list(csv.reader(file))
     colData = read_csv(end_csv_path) # read End csv
     data1 = data[0]
-    ended_sheet_U_col = colData[data1[20]].tolist() # Ended sheet col U(End date)
+    # ended_sheet_U_col = colData[data1[20]].tolist() # Ended sheet col U(End date)
     ended_sheet_B_col = colData[data1[1]].tolist() # Ended sheet col B(SKU)
-    indexes = get_index_of_needed_dates(given_date, ended_sheet_U_col)
+    indexes = get_index_of_needed_dates(given_date, end_date_column)
 
     # Get all the SKUs form the ended file
     req_skus = []

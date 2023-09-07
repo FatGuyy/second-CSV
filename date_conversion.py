@@ -43,7 +43,7 @@ def get_dates_in_numbers(c):
     """
     d=[]
     f = []
-    g = []
+    # g = []
     for word in c:
         w = word.split(" ")
         d.append(w[0] +' '+ w[1]) # Make 1 to get time.
@@ -97,6 +97,7 @@ def compare_date(check_date, date_list):
 # Get the Time right now and store it in a text file
 def write_current_time_to_file(endcsv_U_column):
     # Get the current time
+    # print(endcsv_U_column)
     current_time = find_latest_date(get_dates_in_numbers(endcsv_U_column))
     current_time = datetime(*current_time[0])
     
