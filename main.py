@@ -5,6 +5,7 @@ import os
 import csv
 import pandas as pd
 import date_conversion
+from math import isnan
 from pandas import read_csv
 import inventory_first_scramble
 import inventory_scecond_scramble
@@ -261,34 +262,18 @@ def main(inventory_csv_path):
 
 if __name__ == "__main__":
     try:
-        # inventory_csv_path = input("Enter Inventory sheet path : ")
-        # inventory_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/rp inventory (1).csv"
-        inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(3).csv"
-        # sold_csv_path = input("Enter sold sheet path : ")
+        inventory_csv_path = input("Enter Inventory sheet path : ")
+        # inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(3).csv"
+        sold_csv_path = input("Enter sold sheet path : ")
         # sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
-        sold_csv_path = r"/home/fatguy/Downloads/sold(2).csv"
-        # end_csv_path = input("Enter the end csv path : ")
-        # end_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/end.csv"
-        end_csv_path = r"/home/fatguy/Downloads/end(2).csv"
-        # output_csv_path = input("Enter path to store output CSV : ")
-        # output_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req"
-        output_csv_path = r"/home/fatguy/Downloads"
-
-        # Reading the number of rows in sold csv
-        rows_in_sold = (read_csv(sold_csv_path)).shape[0]
-
-        # Reading the end csv
-        # with open(end_csv_path, "r", encoding='utf-8') as file:
-        #         data = list(csv.reader(file))
-        # colData = read_csv(end_csv_path) # read End csv
-        # rows_in_end = colData.shape[0]
-        # data1 = data[0]
-        # end_sheet_U_col = colData[data1[20]].tolist() # Ended sheet col U(End date)
+        end_csv_path = input("Enter the end csv path : ")
+        # end_csv_path = r"/home/fatguy/Downloads/end(2).csv"
+        output_csv_path = input("Enter path to store output CSV : ")
+        # output_csv_path = r"/home/fatguy/Downloads"
         
         # Access the "End date" column by name : END csv
         df = pd.read_csv(end_csv_path, encoding='utf-8')
         end_date_column = df["End date"].tolist()
-
 
         # getting the previous data.
         given_date = date_conversion.get_dates_in_numbers([date_conversion.get_previous_time()])
@@ -306,11 +291,30 @@ if __name__ == "__main__":
 
         # Making output csv & Writing the output csv
         print('\033[1mMaking Output csv...\033[0m')
-        # print("end_csv_indexes + sold_csv_indexes : ", ([0] + end_csv_indexes+sold_csv_indexes))
 
         # Making new Inventory for the output file to be made.
         directory_name = os.path.splitext(os.path.basename(inventory_csv_path))[0]
         create_new_csv(inventory_csv_path, output_csv_path + f"/inventory_for_output_of_{directory_name}.csv", ([0] + end_csv_indexes+sold_csv_indexes))
+        
+        # Reading the inventory file
+        with open(inventory_csv_path, "r", encoding='utf-8') as file:
+            data_inventory = list(csv.reader(file)) # Read Data in rows
+        colData = read_csv(inventory_csv_path) # read inventory in col
+        data1_inventory = data_inventory[0]
+        inventory_F = colData[data1_inventory[5]].tolist() # Inventory sheet col F
+        indexes = sold_csv_indexes+end_csv_indexes
+
+        create_new_csv(inventory_csv_path, output_csv_path + f"/inventory_for_output_of_{directory_name}.csv", ([0] + indexes))
+        
+        # Only taking the rows that have value in column F
+        var = output_csv_path + f"/inventory_for_output_of_{directory_name}.csv"
+        df = pd.read_csv(var)
+        # Filter rows based on the specified column number
+        column_number = 5
+        filtered_df = df.dropna(subset=[df.columns[column_number]])  # Remove rows where the specified column is NaN
+        filtered_df = filtered_df[filtered_df.iloc[:, column_number] != '']  # Remove rows where the specified column is an empty string
+        filtered_df.to_csv(var, index=False)
+
         result = main(inventory_csv_path=output_csv_path + f"/inventory_for_output_of_{directory_name}.csv")
         write_list_to_csv_column(f"Output_for_{directory_name}", result, output_csv_path)
 

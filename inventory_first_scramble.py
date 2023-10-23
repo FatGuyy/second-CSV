@@ -3,9 +3,10 @@ This file process all the dates,
 Does all the scrambling using the END csv.
 """
 import csv
-import pandas as pd
-import datetime
+from math import isnan
 import shutil
+import datetime
+import pandas as pd
 from pandas import read_csv
 from date_conversion import get_dates_in_numbers, compare_date
 
