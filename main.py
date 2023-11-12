@@ -5,7 +5,6 @@ import os
 import csv
 import pandas as pd
 import date_conversion
-from math import isnan
 from pandas import read_csv
 import inventory_first_scramble
 import inventory_scecond_scramble
@@ -262,14 +261,14 @@ def main(inventory_csv_path):
 
 if __name__ == "__main__":
     try:
-        inventory_csv_path = input("Enter Inventory sheet path : ")
-        # inventory_csv_path = r"/home/fatguy/Downloads/rp inventory(3).csv"
-        sold_csv_path = input("Enter sold sheet path : ")
-        # sold_csv_path = r"/home/fatguy/Desktop/codes/fiver/second-CSV/req/sold.csv"
-        end_csv_path = input("Enter the end csv path : ")
-        # end_csv_path = r"/home/fatguy/Downloads/end(2).csv"
-        output_csv_path = input("Enter path to store output CSV : ")
-        # output_csv_path = r"/home/fatguy/Downloads"
+        # inventory_csv_path = input("Enter Inventory sheet path : ")
+        inventory_csv_path = r"/home/fatguy/Downloads/rp inventory.csv"
+        # sold_csv_path = input("Enter sold sheet path : ")
+        sold_csv_path = r"/home/fatguy/Downloads/sold csv.csv"
+        # end_csv_path = input("Enter the end csv path : ")
+        end_csv_path = r"/home/fatguy/Downloads/end(3).csv"
+        # output_csv_path = input("Enter path to store output CSV : ")
+        output_csv_path = r"/home/fatguy/Downloads"
         
         # Access the "End date" column by name : END csv
         df = pd.read_csv(end_csv_path, encoding='utf-8')
@@ -277,20 +276,18 @@ if __name__ == "__main__":
 
         # getting the previous data.
         given_date = date_conversion.get_dates_in_numbers([date_conversion.get_previous_time()])
-
-        # Writing time for this current run.
-        date_conversion.write_current_time_to_file(end_date_column)
+        print(given_date)
 
         # Making the new inventory from the end csv (first scramble)
-        print('\033[1mScanning end csv...\033[0m')
+        print('\033[1m' + 'Scanning end csv...' + '\033[1m')
         new_inventory, end_csv_indexes = inventory_first_scramble.first_scramble_of_inventory(given_date=given_date[0], inventory_path=inventory_csv_path, end_csv_path=end_csv_path)
 
         # Scanning sold csv (Scecond Scramble)
-        print('\033[1mScanning sold csv...\033[0m')
+        print('\033[1m' + 'Scanning sold csv...' + '\033[1m' )
         new_inventory, sold_csv_indexes = inventory_scecond_scramble.second_scramble(sold_csv_path, inventory_csv_path, new_inventory)
 
         # Making output csv & Writing the output csv
-        print('\033[1mMaking Output csv...\033[0m')
+        print('\033[1m' + ' Making Output csv...' + '\033[1m')
 
         # Making new Inventory for the output file to be made.
         directory_name = os.path.splitext(os.path.basename(inventory_csv_path))[0]
@@ -317,6 +314,9 @@ if __name__ == "__main__":
 
         result = main(inventory_csv_path=output_csv_path + f"/inventory_for_output_of_{directory_name}.csv")
         write_list_to_csv_column(f"Output_for_{directory_name}", result, output_csv_path)
+
+        # Writing time for this current run.
+        date_conversion.write_current_time_to_file(end_date_column)
 
         # Waiting for user to press any key before exiting
         print()

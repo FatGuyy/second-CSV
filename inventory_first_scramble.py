@@ -1,9 +1,7 @@
 """
-This file process all the dates,
 Does all the scrambling using the END csv.
 """
 import csv
-from math import isnan
 import shutil
 import datetime
 import pandas as pd
@@ -71,8 +69,8 @@ def first_scramble_of_inventory(given_date, inventory_path, end_csv_path):
     """
     this file makes the first scramble of the inventory file
     """
-    # Making a backup of the inventory file
-    File_to_work = inventory_path[:-4] + str(datetime.datetime.now()) + r" back_up.csv" 
+    # Making a backup of the inventory file, replacing because windows doesn't allow you to use : in file names
+    File_to_work = inventory_path[:-4] + " " + (str(datetime.datetime.now()).replace(':', ".")) + r" back_up.csv"
     shutil.copyfile(inventory_path, File_to_work)
 
 

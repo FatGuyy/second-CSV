@@ -90,14 +90,15 @@ def compare_date(check_date, date_list):
     for i in date_list:
         date = datetime(*i)
         if date < check_date:
+            print("False : ", date, " < ", check_date)
             return False
         else:
+            print("True : ", check_date, " < ", date)
             return True
 
 # Get the Time right now and store it in a text file
 def write_current_time_to_file(endcsv_U_column):
     # Get the current time
-    # print(endcsv_U_column)
     current_time = find_latest_date(get_dates_in_numbers(endcsv_U_column))
     current_time = datetime(*current_time[0])
     
@@ -111,5 +112,4 @@ def get_previous_time():
         # Read the first line
         first_line = file.readline()
 
-        # return datetime.strptime(first_line, '%Y-%m-%d %H:%M:%S')
         return convert_datetime_format(first_line)
